@@ -1,4 +1,4 @@
-module simplegraph
+module SimpleGraphs
 using DataStructures
 
 # This takes a DisjointSets object and returns its ground set.
@@ -1492,4 +1492,4 @@ function export_simple{T}(G::SimpleGraph{T})
     return (H,d,dinv)
 end
 
-end # module simplegraph
+end # module SimpleGraphs
