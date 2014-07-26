@@ -1,3 +1,7 @@
-# SimpleGraphs
+SimpleGraphs
+============
 
-[![Build Status](https://travis-ci.org/scheinerman/SimpleGraphs.jl.png)](https://travis-ci.org/scheinerman/SimpleGraphs.jl)
+This is a Julia module that provides a `SimpleGraph` type for working with 
+*simple graphs*: graphs without loops, multiple edges, or directed edges.
+
+Much more to follow. This is placeholder for now.
