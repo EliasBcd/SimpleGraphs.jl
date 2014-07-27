@@ -8,5 +8,17 @@ To get started, get the package like this:
 ```julia
 julia> Pkg.clone("https://github.com/scheinerman/SimpleGraphs.jl.git")
 ```
-Much more to follow (including documentation).
-This is placeholder README for now.
+The in any Julia sesssion, just give the command
+`using SimpleGraphs`.
+
+Documentation
+-------------
+
+The documentation is in the `doc` folder in a file named `SimpleGraphs.pdf`.
+
+Please Help
+-----------
+
+This is very much a work in process with a lot of more features that
+can/should be added. If you're interested in contributing, please
+contact me. I'm especially interested in JHU undergraduates getting involved.
