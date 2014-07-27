@@ -1,3 +1,6 @@
+# Module written by Ed Scheinerman, ers@jhu.edu
+# distributed under terms of the MIT license
+
 module SimpleGraphs
 using DataStructures
 
