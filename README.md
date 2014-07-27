@@ -14,7 +14,7 @@ The in any Julia sesssion, just give the command
 Documentation
 -------------
 
-The documentation is in the `doc` folder in a file named `SimpleGraphs.pdf`.
+The documentation is in the `doc` folder in a file named `SimpleGraph.pdf`.
 
 Please Help
 -----------
