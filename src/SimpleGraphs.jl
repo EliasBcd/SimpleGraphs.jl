@@ -123,6 +123,7 @@ IntGraph() = SimpleGraph{Int}()
 # edges.
 function IntGraph(n::Int)
     G = IntGraph()
+    sizehint(G.V,n)  # speed up this way by pre-allocating
     for v=1:n
         add!(G,v)
     end
