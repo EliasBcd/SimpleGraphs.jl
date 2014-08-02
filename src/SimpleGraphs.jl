@@ -123,7 +123,6 @@ IntGraph() = SimpleGraph{Int}()
 # edges.
 function IntGraph(n::Int)
     G = IntGraph()
-    sizehint(G.V,n)  # speed up this way by pre-allocating
     for v=1:n
         add!(G,v)
     end
@@ -603,6 +602,11 @@ end
 # Create an Erdos-Renyi random graph
 function RandomGraph(n::Int, p::Real=0.5)
     G = IntGraph(n)
+    
+    # guess the size of the edge set to preallocate storage
+    m = int(n*n*p)+1
+
+    # generate the edges
     for v=1:n-1
         for w=v+1:n
             if (rand() < p)
