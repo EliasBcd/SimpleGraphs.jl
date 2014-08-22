@@ -7,6 +7,7 @@ using DataStructures
 
 import Base.show, Base.delete!, Base.isequal, Base.union
 import Base.complement, Base.complement!
+import Base.join, Base.copy   # needed since Julia 0.3
 
 
 export SimpleGraph, IntGraph, StringGraph
