@@ -138,37 +138,6 @@ ASCIIString (constructor with 1 method)
 \end{verbatim}
 
 
-
-
-% Checking if two given vertices are adjacent is efficient, but finding
-% all neighbors of a given vertex is not. By default,
-% \verb|neighbors(G,v)| (or, equivalently, \verb|G[v]|) scans through
-% the entire edge set looking for edges. If this needs to be done many
-% times, performance will be poor.
-
-% At user's direction, an additional data structure mapping vertices to
-% their neighbor sets can be built using the verb |fastN!|
-% function. Calling \verb|fastN!(G,true)| will build this data structure
-% and now finding all the neighbors of a vertex takes time proportional
-% to the degree of the vertex. A subsequent call to
-% \verb|fastN!(G,false)| removes the additional data structure.
-
-% If one calls \verb|fastN!(G,true)| twice in a row, the second call has
-% no effect since the neighborhood data structure is already
-% built. Furthermore, adding or deleting edges after
-% \verb|fastN!(G,true)| has been invoked will modify the neighborhood
-% data structure accordingly.
-
-% The neighborhood data structure is off by default, but users can
-% specify that it be switched on when a graph is created by providing
-% an optional argument: \verb|G = SimpleGraph(true)|, or
-% \verb|G=SimpleGraph{T}(true)|.
-
-% \textbf{UPDATE!} As of now, fast neighborhood lookup is
-% \emph{activated} by default. I need to rewrite this section.
-
-
-
 \section{Look but don't touch}
 \label{sect:fastN}
 
