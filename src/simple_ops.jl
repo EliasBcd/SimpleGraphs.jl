@@ -33,7 +33,7 @@ function ==(G::SimpleGraph, H::SimpleGraph)
 end
 
 # adding vertices
-function add!{T}(G::SimpleGraph{T}, v::T)
+function add!{T}(G::SimpleGraph{T}, v)
     if has(G,v)
         return false
     end
@@ -45,7 +45,7 @@ function add!{T}(G::SimpleGraph{T}, v::T)
 end
 
 # adding edges
-function add!{T}(G::SimpleGraph{T}, v::T, w::T)
+function add!{T}(G::SimpleGraph{T}, v, w)
     if v==w
         return false
     end
@@ -137,7 +137,7 @@ end
 
 # Given a simple graph G and a set of vertices A, form the induced
 # subgraph G[A]. Note that A must be a subset of V(G).
-function induce{T}(G::SimpleGraph{T}, A::Set{T})
+function induce{T}(G::SimpleGraph{T}, A::Set)
     # Check that A is a subset of V(G)
     for v in A
         if ~has(G,v)

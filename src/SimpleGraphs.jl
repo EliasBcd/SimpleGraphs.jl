@@ -159,7 +159,7 @@ function elist(G::SimpleGraph)
 end
 
 # Get the neighbors of a vertex
-function neighbors{T}(G::SimpleGraph{T}, v::T)
+function neighbors{T}(G::SimpleGraph{T}, v)
     if ~has(G,v)
         error("Graph does not contain requested vertex")
     end

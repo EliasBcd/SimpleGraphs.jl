@@ -118,12 +118,12 @@ end
 # Int, we use -1 to signal this.
 
 # find the distance between specified vertices
-function dist{T}(G::SimpleGraph{T},u::T,v::T)
+function dist{T}(G::SimpleGraph{T},u,v)
     return length(find_path(G,u,v))-1
 end
 
 # find all distances from a given vertex
-function dist{T}(G::SimpleGraph{T}, v::T)
+function dist{T}(G::SimpleGraph{T}, v)
     d = Dict{T,Int}()
     if !has(G,v)
         error("Given vertex is not in this graph")
@@ -179,7 +179,7 @@ end
 
 # Determine if a given edge in a graph is a cut edge. If there is no
 # such edge in the graph, an error is raised.
-function is_cut_edge{T}(G::SimpleGraph{T}, u::T, v::T)
+function is_cut_edge(G::SimpleGraph, u, v)
     if !has(G,u,v)
         error("No such edge in this graph")
     end
@@ -194,6 +194,8 @@ function is_cut_edge{T}(G::SimpleGraph{T}, u::T, v::T)
     return result
 end
 
-function is_cut_edge{T}(G::SimpleGraph{T}, e::(T,T))
+# When called as is_cut_edge(G,e), we assume e is a tuple or list
+# whose first two entries are the end points of the edge
+function is_cut_edge(G::SimpleGraph, e)
     return is_cut_edge(G,e[1],e[2])
 end
