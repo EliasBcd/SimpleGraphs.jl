@@ -1,4 +1,5 @@
-export Path, Cycle, Complete, RandomDigraph, RandomTournament
+export DirectedPath, DirectedCycle, DirectedComplete
+export RandomDigraph, RandomTournament
 
 # Create a directed path on n vertices
 function DirectedPath(n::Int)
