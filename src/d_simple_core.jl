@@ -26,6 +26,9 @@ SimpleDigraph() = SimpleDigraph{Any}()
 IntDigraph() = SimpleDigraph{Int}()
 StringDigraph() = SimpleDigraph{ASCIIString}()
 
+vertex_type{T}(G::SimpleDigraph{T}) = T
+
+
 function IntDigraph(n::Int)
     G = IntDigraph()
     for v=1:n

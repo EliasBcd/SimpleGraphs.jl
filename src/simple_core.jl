@@ -83,6 +83,7 @@ end
 # Determine the type of vertex this graph holds
 vertex_type{T}(G::SimpleGraph{T}) = T
 
+
 # number of vertices and edges
 NV(G::SimpleGraph) = length(G.V)
 NE(G::SimpleGraph) = length(G.E)
@@ -122,8 +123,11 @@ function fastN!{T}(G::SimpleGraph{T},flg::Bool=true)
 end
 
 # Create a mapping between G.V and 1:n. This is not exposed outside
-# this module; it's a helper function used by other functions.
-function vertex2idx{T}(G::SimpleGraph{T})
+# this module; it's a helper function used by other functions. This
+# has been crafted to work with either SimpleGraph or SimpleDigraph
+# arguments.
+function vertex2idx(G)
+    T = vertex_type(G)
     d = Dict{T,Int}()
     V = vlist(G)
     n = NV(G)

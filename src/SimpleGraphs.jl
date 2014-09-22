@@ -17,7 +17,7 @@ include("simple_euler.jl")
 
 include("d_simple_core.jl")
 include("d_simple_constructors.jl")
-
+include("d_simple_matrices.jl")
 
 
 end # module SimpleGraphs
