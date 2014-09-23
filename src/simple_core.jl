@@ -1,12 +1,10 @@
-
 import Base.show
 
 export SimpleGraph, IntGraph, StringGraph
 export show, NV, NE, has, vertex_type, fastN!
 export vlist, elist, neighbors, getindex, deg
 
-
-type SimpleGraph{T}
+type SimpleGraph{T} <: AbstractSimpleGraph
     V::Set{T}          # Vertex set
     E::Set{(T,T)}      # Edge set
     N::Dict{T,Set{T}}  # Optional neighbor sets
@@ -19,8 +17,8 @@ type SimpleGraph{T}
     end
 end
 
-function show(io::IO, G::SimpleGraph)
-    print(io,"$(typeof(G)) ($(NV(G)) vertices, $(NE(G)) edges)")
+function show(io::IO, G::AbstractSimpleGraph)
+    print(io,"$(typeof(G)) ($(NV(G)) vertices)")
 end
 
 # Default constructor uses Any type vertices
@@ -83,13 +81,12 @@ end
 # Determine the type of vertex this graph holds
 vertex_type{T}(G::SimpleGraph{T}) = T
 
-
 # number of vertices and edges
-NV(G::SimpleGraph) = length(G.V)
+NV(G::AbstractSimpleGraph) = length(G.V)
 NE(G::SimpleGraph) = length(G.E)
 
 # check for membership of a vertex or edge
-has(G::SimpleGraph, v) = in(v,G.V)
+has(G::AbstractSimpleGraph, v) = in(v,G.V)
 has(G::SimpleGraph, v, w) = in((v,w), G.E) || in((w,v), G.E)
 
 # fastN(G,true) creates an additional data structure to speed up
@@ -126,7 +123,7 @@ end
 # this module; it's a helper function used by other functions. This
 # has been crafted to work with either SimpleGraph or SimpleDigraph
 # arguments.
-function vertex2idx(G)
+function vertex2idx(G::AbstractSimpleGraph)
     T = vertex_type(G)
     d = Dict{T,Int}()
     V = vlist(G)
@@ -140,7 +137,7 @@ function vertex2idx(G)
 end
 
 # get the vertices as a (sorted if possible) list
-function vlist(G::SimpleGraph)
+function vlist(G::AbstractSimpleGraph)
     result = collect(G.V)
     try
         sort!(result)

@@ -198,6 +198,15 @@ constructors, we have the following:
   the edges `(u,v)` or `(v,u)` with probability 1/2 each
   (independently for all pairs of vertices). This graph has no loops.
 
+### Converting a directed graph into an undirected graph
+
+If `D` is a `SimpleDigraph` then `simplify(D)` creates a new
+`SimpleGraph` that's formed by removing directions (and loops). That
+is, the new graph has the same vertices as `D` and an edge between
+distinct vertices `u` and `v` if and only if `(u,v)` or `(v,u)` (or
+both) is an edge of `D`.
+
+
 ## Graph operations
 
 Undirected graphs only at this time. To be documented:

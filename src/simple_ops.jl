@@ -15,7 +15,7 @@ function isequal(G::SimpleGraph, H::SimpleGraph)
     end
     try  # check vertex sets for sortability
         sort(collect(G.V))
-        sort(collect(H.V))
+        # sort(collect(H.V))
     catch  #if not sortable, resort to a slow method
         for e in G.E
             if ! has(H,e[1],e[2])

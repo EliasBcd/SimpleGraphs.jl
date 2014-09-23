@@ -1,15 +1,11 @@
 # Core definitions for directed graphs
 
-
 export SimpleDigraph, IntDigraph, StringDigraph
-export add!, delete!, has
 export is_looped, allow_loops!, forbid_loops!, remove_loops!, loops
-export show, NV, NE
 export out_deg, in_deg, deg
 export in_neighbors, out_neighbors
-export vlist, elist
 
-type SimpleDigraph{T}
+type SimpleDigraph{T} <: AbstractSimpleGraph
     V::Set{T}              # vertex set of this graph
     N::Dict{T,Set{T}}      # map vertices to out-neighbors
     NN::Dict{T,Set{T}}     # map vertices to in-neighbors
@@ -35,11 +31,6 @@ function IntDigraph(n::Int)
         add!(G,v)
     end
     return G
-end
-
-# Simple way to print a digraph
-function show(io::IO, G::SimpleDigraph)
-    print(io,"$(typeof(G)) ($(NV(G)) vertices)")
 end
 
 # Do we allow loops?
@@ -115,9 +106,6 @@ function in_neighbors(G::SimpleDigraph, v)
     return result
 end
 
-# Number of vertices
-NV(G::SimpleDigraph) = length(G.V)
-
 # Number of edges
 function NE(G::SimpleDigraph)
     total::Int = 0
@@ -126,9 +114,6 @@ function NE(G::SimpleDigraph)
     end
     return total
 end
-
-# Check if this digraph has a given vertex
-has(G::SimpleDigraph, v) = in(v,G.V)
 
 # Check if this digraph has a given edge
 has(G::SimpleDigraph, v, w) = has(G,v) && in(w,G.N[v])
@@ -190,15 +175,6 @@ function delete!(G::SimpleDigraph, v)
     return true
 end
 
-# Create a list of all vertices in the digraph
-function vlist(G::SimpleDigraph)
-    result = collect(G.V)
-    try
-        sort!(result)
-    end
-    return result
-end
-
 # Create a list of all edges in the digraph
 function elist{T}(G::SimpleDigraph{T})
     E = Set{(T,T)}()
@@ -214,4 +190,15 @@ function elist{T}(G::SimpleDigraph{T})
     return result
 end
 
-
+# Convert a directed graph into a simple undirected graph by removing
+# directions (and loops)
+function simplify{T}(D::SimpleDigraph{T})
+    G = SimpleGraph{T}()
+    for v in D.V
+        add!(G,v)
+    end
+    for e in elist(D)
+        add!(G,e[1],e[2])
+    end
+    return G
+end

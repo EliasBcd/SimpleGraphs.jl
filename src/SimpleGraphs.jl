@@ -4,6 +4,8 @@
 module SimpleGraphs
 using DataStructures
 
+abstract AbstractSimpleGraph
+export AbstractSimpleGraph
 
 include("simple_core.jl")
 include("simple_ops.jl")
