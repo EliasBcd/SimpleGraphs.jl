@@ -3,7 +3,7 @@
 export SimpleDigraph, IntDigraph, StringDigraph
 export is_looped, allow_loops!, forbid_loops!, remove_loops!, loops
 export out_deg, in_deg, deg
-export in_neighbors, out_neighbors
+export in_neighbors, out_neighbors, simplify
 
 type SimpleDigraph{T} <: AbstractSimpleGraph
     V::Set{T}              # vertex set of this graph
@@ -201,4 +201,26 @@ function simplify{T}(D::SimpleDigraph{T})
         add!(G,e[1],e[2])
     end
     return G
+end
+
+# Equality check
+function isequal(G::SimpleDigraph, H::SimpleDigraph)
+    if G.V != H.V || NE(G) != NE(H)
+        return false
+    end
+
+    for e in elist(G)
+        if !has(H,e[1],e[2])
+            return false
+        end
+    end
+    return true
+end
+
+function ==(G::SimpleDigraph, H::SimpleDigraph)
+    return isequal(G,H)
+end
+
+function hash(G::SimpleDigraph, h::Uint64 = uint64(0))
+    return hash(G.V,h) + hash(G.N,h)
 end

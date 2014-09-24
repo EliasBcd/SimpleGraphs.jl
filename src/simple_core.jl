@@ -214,3 +214,10 @@ function deg{T}(G::SimpleGraph{T})
     sort!(ds, lt = >)
     return ds
 end
+
+
+import Base.hash
+
+function hash(G::SimpleGraph, h::Uint64 = uint64(0))
+    return hash(G.V,h) + hash(G.E,h)
+end
