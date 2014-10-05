@@ -82,7 +82,7 @@ with `G[v]`. The degree of `v` is returned by `deg(G,v)`. A call to
 
 The situation is more involved if `G` is a `SimpleDigraph`. In this
 case we have the following.
- 
+
 + `out_neighbors(G,v)` returns a list of all vertices `w` such that
   `(v,w)` is an edge of `G`. This includes `v` itself if there's a
   loop at `v`.
@@ -133,10 +133,10 @@ manipulate loops:
   alter its ability to have loops.
 + `forbid_loops(D)` deletes all loops (if any) and prevents `D` from
   having loops.
- 
+
 ## Constructors
 
-We provide a variety of functions for generating certain standard graphs. 
+We provide a variety of functions for generating certain standard graphs.
 
 ### Constructors for undirected graphs
 
@@ -223,14 +223,14 @@ Undirected graphs only at this time. To be documented:
 + `trim`
 + `relabel`
 
-## Paths and connectivity 
+## Paths and connectivity
 
 Undirected graphs only at this time. To be documented:
 
 + `is_connected`
 + `num_components`
 + `components`
-+ `find_path`
++ `find_path` (and now also directed graphs!)
 + `dist`
 + `dist_matrix`
 + `diam`

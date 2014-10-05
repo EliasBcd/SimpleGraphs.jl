@@ -70,7 +70,8 @@ function spanning_forest{T}(G::SimpleGraph{T})
 end
 
 # find a shortest path between vertices
-function find_path{T}(G::SimpleGraph{T},s,t)
+function find_path(G::AbstractSimpleGraph,s,t)
+    T = vertex_type(G)
     if ~has(G,s) || ~has(G,t)
         error("Source and/or target vertex is not in this graph")
     end
@@ -88,7 +89,7 @@ function find_path{T}(G::SimpleGraph{T},s,t)
 
     while length(Q) > 0
         v = dequeue!(Q)
-        Nv = G[v]
+        Nv = G.N[v]
         for w in Nv
             if haskey(tracer,w)
                 continue
