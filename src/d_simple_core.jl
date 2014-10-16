@@ -224,3 +224,39 @@ end
 function hash(G::SimpleDigraph, h::Uint64 = uint64(0))
     return hash(G.V,h) + hash(G.N,h)
 end
+
+
+
+
+
+# Relabel the vertics of a graph based on a dictionary mapping old
+# vertex names to new
+function relabel{S,T}(G::SimpleDigraph{S}, label::Dict{S,T})
+    H = SimpleDigraph{T}()
+    for v in G.V
+        add!(H,label[v])
+    end
+
+    E = elist(G)
+    for e in E
+        u = label[e[1]]
+        v = label[e[2]]
+        add!(H,u,v)
+    end
+    return H
+end
+
+# Relabel the vertices with the integers 1:n
+function relabel{S}(G::SimpleDigraph{S})
+    verts = vlist(G)
+    n = length(verts)
+    label = Dict{S,Int}()
+    sizehint(label,n)
+
+    for idx = 1:n
+        label[verts[idx]] = idx
+    end
+
+    return relabel(G,label)
+end
+
