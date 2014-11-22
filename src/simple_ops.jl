@@ -1,9 +1,9 @@
 import Base.isequal
 import Base.delete!, Base.union
 import Base.complement, Base.complement!
-import Base.join, Base.copy 
+import Base.join
 
-export add!, delete!, contract!, copy, induce
+export add!, delete!, contract!,  induce
 export line_graph, complement, complement!, ctranspose
 export cartesian, relabel, trim
 export disjoint_union, union, join
@@ -121,18 +121,6 @@ function contract!(G::SimpleGraph, u, v)
     end
     delete!(G,v)
     return true
-end
-
-# Create an independent copy of a graph
-function copy{T}(G::SimpleGraph{T})
-    H = SimpleGraph{T}()
-    for v in G.V
-        add!(H,v)
-    end
-    for e in G.E
-        add!(H,e[1],e[2])
-    end
-    return H
 end
 
 # Given a simple graph G and a set of vertices A, form the induced
@@ -359,7 +347,7 @@ end
 # are no such vertices remaining in the graph. The default trim(G)
 # simply removes all isolated vertices.
 function trim(G::SimpleGraph, d::Int = 0)
-    H = copy(G)
+    H = deepcopy(G)
     while NV(H) > 0 && minimum(deg(H)) <= d
         for v in H.V
             if deg(H,v) <= d

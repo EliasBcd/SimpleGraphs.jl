@@ -212,7 +212,6 @@ both) is an edge of `D`.
 Undirected graphs only at this time. To be documented:
 
 + `isequal`, `G==H`
-+ `copy`
 + `complement`, `complement!`, `G'`
 + `induce`
 + `contract!`
