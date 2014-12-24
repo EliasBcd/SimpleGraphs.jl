@@ -128,10 +128,10 @@ manipulate loops:
   and `false` otherwise.
 + `loops(D)` returns a list of vertices in `D` at which there is a
   loop present.
-+ `allow_loops(D)` enables the digraph to have loops.
-+ `remove_loops(D)` deletes all loops from `D` (if any) but does not
++ `allow_loops!(D)` enables the digraph to have loops.
++ `remove_loops!(D)` deletes all loops from `D` (if any) but does not
   alter its ability to have loops.
-+ `forbid_loops(D)` deletes all loops (if any) and prevents `D` from
++ `forbid_loops!(D)` deletes all loops (if any) and prevents `D` from
   having loops.
 
 ## Constructors

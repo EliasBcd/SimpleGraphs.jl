@@ -24,7 +24,7 @@ end
 function DirectedComplete(n::Int, with_loops::Bool=true)
     G = IntDigraph(n)
     if !with_loops
-        forbid_loops(G)
+        forbid_loops!(G)
     end
     for u=1:n
         for v=1:n
@@ -38,7 +38,7 @@ end
 function RandomDigraph(n::Int, p::Real=0.5, with_loops=true)
     G = IntDigraph(n)
     if !with_loops
-        forbid_loops(G)
+        forbid_loops!(G)
     end
     for u=1:n
         for v=1:n
