@@ -49,7 +49,9 @@ purpose, we provide these special constructors:
 
 ### Adding/deleting edges/vertices
 
-The most basic operations for graphs are adding and deleting vertices and edges. These are done with `add!` and `delete!`. In general, if `G` is a graph or a digraph, then we have the following:
+The most basic operations for graphs are adding and deleting vertices
+and edges. These are done with `add!` and `delete!`. In general, if
+`G` is a graph or a digraph, then we have the following:
 
 + `add!(G,v)` adds the vertex `v` to the graph.
 + `add!(G,v,w)` adds the edge `(v,w)` to the graph. If `G` is an
@@ -59,7 +61,8 @@ The most basic operations for graphs are adding and deleting vertices and edges.
   edges that might be incident with `v`.
 + `delete!(G,v,w)` deletes the edge `(v,w)`.
 
-The `has` function may be used to determine if a given vertex or edge is present in the graph:
+The `has` function may be used to determine if a given vertex or edge
+is present in the graph:
 
 + `has(G,v)` returns `true` if `v` is a vertex of `G`.
 + `has(G,v,w)` returns `true` if `(v,w)` is an edge of `G`. In the
@@ -248,19 +251,99 @@ We generate the following kinds of matrices for graphs
 
 ## Algorithms
 
-Undirected graphs only at this time. To be documented:
+Undirected graphs only at this time. 
 
-+ `euler`
-+ `bipartition`
+#### Find an Eulerian tour in the graph with `euler`
+
+There are three ways this can be invoked.
+
++ `euler(G,u,v)` finds an Eulerian trail that begins at	`u` and ends at `v`.
++ `euler(G,u)` finds an Eulerian tour that begins and ends at `u`.
++ `euler(G)` finds an Eulerian tour that begins at an arbitrary
+	vertex.
+
+Here's an example:
+```julia
+julia> G = complement(Cube(3))
+SimpleGraph{ASCIIString} (8 vertices)
+
+julia> euler(G)
+17-element Array{ASCIIString,1}:
+ "000"
+ "011"
+ "100"
+ "001"
+ "010"
+ "100"
+ "111"
+ "000"
+ "101"
+ "010"
+ "111"
+ "001"
+ "110"
+ "011"
+ "101"
+ "110"
+ "000"
+ ```
+
+The tour is returned as an `Array` of vertices with 
+`NE(G)+1` elements. If no trail can be found, an empty `Array`
+is returned. 
+
+Note that isolated vertices are ignored.
+	
+	
+#### Bipartition
+
+We provide four functions for graph coloring (but we certainly need
+more):
+
++ `bipartition` determines if a graph is bipartite and returns a
+  partition of the vertex set into two parts. This partition is given
+  as a two element set of subsets of the vertex set of the graph.
+  ```julia
+ julia> G = RandomTree(10)
+ SimpleGraph{Int64} (10 vertices)
+ 
+ julia> bipartition(G)
+ Set{Set{Int64}}({Set{Int64}({2,3,5,8,1}),Set{Int64}({7,4,9,10,6})})
+
+ ```
+ Invoking `bipartition` on a nonbipartite graph throws an error. 
+
+### Coloring
+
+There functions create proper colorings of a graph. These functions
+return a `Dict` mapping vertices to integers so that adjacent vertices
+are mapped to distinct values.
+
 + `two_color`
+  If the graph is bipartite, then this returns a proper 2-coloring of
+  the graph.
+  ```julia
+  julia> two_color(Cube(3))
+  Dict{ASCIIString,Int64} with 8 entries:
+    "000" => 1
+    "111" => 2
+    "001" => 2
+    "011" => 1
+    "101" => 1
+    "110" => 1
+    "010" => 2
+    "100" => 2
+  ```
+
 + `greedy_color`
 + `random_greedy_color`
 
 ## Interface to `Graphs.jl`
 
-We provide a `convert_simple` function that takes a `SimpleGraph` as
-input and returns a Julia `Graphs.simple_graph` representation of the
-same graph (together with dictionaries to match up the vertex sets).
+We provide a `convert_simple` function that takes a `SimpleGraph` 
+or a `SimpleDigraph` as input and returns a Julia
+`Graphs.simple_graph` representation of the same graph 
+(together with dictionaries to match up the vertex sets).
 
 # Please Help
 
