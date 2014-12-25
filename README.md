@@ -253,7 +253,7 @@ We generate the following kinds of matrices for graphs
 
 Undirected graphs only at this time. 
 
-#### Find an Eulerian tour in the graph with `euler`
+### Find an Eulerian tour in the graph with `euler`
 
 There are three ways this can be invoked.
 
@@ -294,8 +294,7 @@ is returned.
 
 Note that isolated vertices are ignored.
 	
-	
-#### Bipartition
+### Bipartition
 
 `bipartition` determines if a graph is bipartite and returns a
 partition of the vertex set into two parts. This partition is given as
@@ -366,7 +365,6 @@ are mapped to distinct values.
     6  => 2
     1  => 1
   ```
-
 
 + `random_greedy_color` is a variant of `greedy_color` in which the
   ordering of the vertices is chosen at random. An optional second
