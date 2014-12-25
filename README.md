@@ -331,8 +331,63 @@ are mapped to distinct values.
   ```
   Applying `two_color` to a nonbipartite graph throws an error. 
 
-+ `greedy_color`
-+ `random_greedy_color`
++ `greedy_color` is used to create a proper coloring of a graph given
+  an ordering of the vertex set (as an `Array` containing all the
+  vertices). Of course, this is not guaranteed to find an optimal
+  coloring. If no ordering is specified, then the a degree-decreasing
+  ordering is used.
+  ```julia
+  julia> T = RandomTree(10)
+  SimpleGraph{Int64} (10 vertices)
+
+  julia> greedy_color(T,[1:10])
+  Dict{Int64,Int64} with 10 entries:
+    7  => 1
+    4  => 2
+    9  => 1
+    10 => 3
+    2  => 1
+    3  => 1
+    5  => 2
+    8  => 3
+    6  => 1
+    1  => 1
+
+  julia> greedy_color(T)
+  Dict{Int64,Int64} with 10 entries:
+    7  => 2
+    4  => 1
+    9  => 1
+    10 => 2
+    2  => 3
+    3  => 2
+    5  => 1
+    8  => 2
+    6  => 2
+    1  => 1
+  ```
+
+
++ `random_greedy_color` is a variant of `greedy_color` in which the
+  ordering of the vertices is chosen at random. An optional second
+  argument specifies the number of random orders to generate. The best
+  coloring found (fewest colors) is returned.
+  ```julia
+  julia> random_greedy_color(T,100)
+  Initial coloring uses 3 colors
+  Reduced to 2 colors
+  Dict{Int64,Int64} with 10 entries:
+    7  => 1
+    4  => 2
+    9  => 1
+    10 => 2
+    2  => 1
+    3  => 2
+    5  => 1
+    8  => 2
+    6  => 1
+    1  => 1
+  ```
 
 ## Interface to `Graphs.jl`
 
