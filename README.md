@@ -393,6 +393,34 @@ We provide a `convert_simple` function that takes a `SimpleGraph`
 or a `SimpleDigraph` as input and returns a Julia
 `Graphs.simple_graph` representation of the same graph 
 (together with dictionaries to match up the vertex sets).
+```julia
+julia> (G,d,dinv) = convert_simple(Cube(3));
+
+julia> G
+Undirected Graph (8 vertices, 12 edges)
+
+julia> d
+Dict{ASCIIString,Int64} with 8 entries:
+  "000" => 1
+  "111" => 8
+  "001" => 2
+  "011" => 4
+  "101" => 6
+  "110" => 7
+  "010" => 3
+  "100" => 5
+
+julia> dinv
+Dict{Int64,ASCIIString} with 8 entries:
+  7 => "110"
+  4 => "011"
+  2 => "001"
+  3 => "010"
+  8 => "111"
+  5 => "100"
+  6 => "101"
+  1 => "000"
+```
 
 # Please Help
 
