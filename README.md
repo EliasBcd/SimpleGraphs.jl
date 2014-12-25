@@ -297,21 +297,16 @@ Note that isolated vertices are ignored.
 	
 #### Bipartition
 
-We provide four functions for graph coloring (but we certainly need
-more):
+`bipartition` determines if a graph is bipartite and returns a
+partition of the vertex set into two parts. This partition is given as
+a two element set of subsets of the vertex set of the graph.
 
-+ `bipartition` determines if a graph is bipartite and returns a
-  partition of the vertex set into two parts. This partition is given
-  as a two element set of subsets of the vertex set of the graph.
-  ```julia
- julia> G = RandomTree(10)
- SimpleGraph{Int64} (10 vertices)
- 
- julia> bipartition(G)
- Set{Set{Int64}}({Set{Int64}({2,3,5,8,1}),Set{Int64}({7,4,9,10,6})})
+```julia
+julia> bipartition(RandomTree(10))
+Set{Set{Int64}}({Set{Int64}({2,3,5,8,1}),Set{Int64}({7,4,9,10,6})})
+```
 
- ```
- Invoking `bipartition` on a nonbipartite graph throws an error. 
+Invoking `bipartition` on a nonbipartite graph throws an error. 
 
 ### Coloring
 
@@ -334,6 +329,7 @@ are mapped to distinct values.
     "010" => 2
     "100" => 2
   ```
+  Applying `two_color` to a nonbipartite graph throws an error. 
 
 + `greedy_color`
 + `random_greedy_color`
