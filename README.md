@@ -310,7 +310,7 @@ Invoking `bipartition` on a nonbipartite graph throws an error.
 
 ### Coloring
 
-There functions create proper colorings of a graph. These functions
+These functions create proper colorings of a graph. These functions
 return a `Dict` mapping vertices to integers so that adjacent vertices
 are mapped to distinct values.
 
