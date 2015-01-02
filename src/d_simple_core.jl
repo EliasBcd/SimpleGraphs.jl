@@ -3,7 +3,7 @@
 export SimpleDigraph, IntDigraph, StringDigraph
 export is_looped, allow_loops!, forbid_loops!, remove_loops!, loops
 export out_deg, in_deg, deg
-export in_neighbors, out_neighbors, simplify
+export in_neighbors, out_neighbors, simplify, vertex_split
 
 type SimpleDigraph{T} <: AbstractSimpleGraph
     V::Set{T}              # vertex set of this graph
@@ -260,3 +260,23 @@ function relabel{S}(G::SimpleDigraph{S})
     return relabel(G,label)
 end
 
+# Split vertices of a digraph to make a bipartite undirected graph. If
+# (u,v) is an edges of G, then {(u,1),(v,2)} is an edge of the new
+# graph.
+function vertex_split{S}(G::SimpleDigraph{S})
+    H = SimpleGraph{(S,Int)}()
+  
+    for v in vlist(G)
+        add!(H,(v,1))
+        add!(H,(v,2))
+    end
+
+    for e in elist(G)
+        u = (e[1],1)
+        v = (e[2],2)
+        add!(H,u,v)
+    end
+    
+    return H
+end
+    

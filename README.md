@@ -112,9 +112,8 @@ additional data structure.
   `fastN!(G)` has the same effect.
 
 To check if a graph possesses this data structure, the value of
-`G.Nflag` may be inspected *but in no circumstance should this value
-be changed except through the use of* `fastN!`.
-
+`G.Nflag` may be inspected **but in no circumstance should this value
+be changed except through the use of** `fastN!`.
 
 ### Loops
 
@@ -208,6 +207,33 @@ If `D` is a `SimpleDigraph` then `simplify(D)` creates a new
 is, the new graph has the same vertices as `D` and an edge between
 distinct vertices `u` and `v` if and only if `(u,v)` or `(v,u)` (or
 both) is an edge of `D`.
+
+We also provide the function `vertex_split` that takes a directed
+graph `D` and makes a new undirected graph by splitting each vertex in
+two. That is, `v` becomes `(v,1)` and `(v,2)` in the new graph. If
+`(u,v)` is a directed edge of `D` then `((u,1),(v,2))` is an edge in
+the resulting graph (which will be bipartite).
+```julia
+julia> D = DirectedCycle(4)
+SimpleDigraph{Int64} (4 vertices)
+
+julia> elist(D)
+4-element Array{(Int64,Int64),1}:
+ (1,2)
+ (2,3)
+ (3,4)
+ (4,1)
+
+julia> G = vertex_split(D)
+SimpleGraph{(Int64,Int64)} (8 vertices)
+
+julia> elist(G)
+4-element Array{((Int64,Int64),(Int64,Int64)),1}:
+ ((1,1),(2,2))
+ ((1,2),(4,1))
+ ((2,1),(3,2))
+ ((3,1),(4,2))
+```
 
 
 ## Graph operations
