@@ -2,7 +2,7 @@
 
 export SimpleDigraph, IntDigraph, StringDigraph
 export is_looped, allow_loops!, forbid_loops!, remove_loops!, loops
-export out_deg, in_deg, deg
+export out_deg, in_deg, deg, dual_deg
 export in_neighbors, out_neighbors, simplify, vertex_split
 
 type SimpleDigraph{T} <: AbstractSimpleGraph
@@ -79,14 +79,22 @@ function loops{T}(G::SimpleDigraph{T})
     return loop_list
 end
 
-# Out-degree of a vertex
+# Out-degree of a vertex and the sequence for the whole digraph
 out_deg(G::SimpleDigraph, v) = length(G.N[v])
+out_deg(G::SimpleDigraph) = sort([out_deg(G,v) for v in G.V], rev=true)
 
-# In-degree of a vertex
+# Likewise for indegrees
 in_deg(G::SimpleDigraph, v) = length(G.NN[v])
+in_deg(G::SimpleDigraph) = sort([in_deg(G,v) for v in G.V], rev=true)
 
 # The degree of a vertex is the sum of in and out degrees
 deg(G::SimpleDigraph, v) = in_deg(G,v) + out_deg(G,v)
+deg(G::SimpleDigraph) = sort([ deg(G,v) for v in G.V], rev=true)
+
+# dual_deg gives the two-tuple (out,in)-degrees
+dual_deg(G::SimpleDigraph, v) = (out_deg(G,v), in_deg(G,v))
+dual_deg(G::SimpleDigraph) = sort([ dual_deg(G,v) for v in G.V ], rev=true)
+
 
 # out neighbors of a vertex
 function out_neighbors(G::SimpleDigraph, v)
