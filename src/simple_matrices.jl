@@ -52,7 +52,7 @@ function incidence(G::SimpleGraph, signed::Bool = true)
 end
 
 # Create the n-by-n distance matrix
-function dist_matrix(G::SimpleGraph)
+function dist_matrix(G::AbstractSimpleGraph)
     vtcs = vlist(G)
     n = length(vtcs)
     dd = dist(G)

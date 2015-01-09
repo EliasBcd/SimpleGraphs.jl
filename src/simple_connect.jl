@@ -119,12 +119,13 @@ end
 # Int, we use -1 to signal this.
 
 # find the distance between specified vertices
-function dist{T}(G::SimpleGraph{T},u,v)
+function dist(G::AbstractSimpleGraph,u,v)
     return length(find_path(G,u,v))-1
 end
 
 # find all distances from a given vertex
-function dist{T}(G::SimpleGraph{T}, v)
+function dist(G::AbstractSimpleGraph, v)
+    T = vertex_type(G)
     d = Dict{T,Int}()
     if !has(G,v)
         error("Given vertex is not in this graph")
@@ -136,7 +137,7 @@ function dist{T}(G::SimpleGraph{T}, v)
 
     while length(Q)>0
         w = dequeue!(Q)  # get 1st vertex in the queue
-        Nw = G[w]
+        Nw = G.N[w]
         for x in Nw
             if !haskey(d,x)
                 d[x] = d[w]+1
@@ -156,7 +157,8 @@ function dist{T}(G::SimpleGraph{T}, v)
 end
 
 # find all distances between all vertices
-function dist{T}(G::SimpleGraph{T})
+function dist(G::AbstractSimpleGraph)
+    T = vertex_type(G)
     dd = Dict{(T,T),Int}()
     vtcs = vlist(G)
 

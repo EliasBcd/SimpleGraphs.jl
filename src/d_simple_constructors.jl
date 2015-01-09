@@ -35,7 +35,7 @@ function DirectedComplete(n::Int, with_loops::Bool=true)
 end
 
 # Create a random digraph (Erdos-Renyi style)
-function RandomDigraph(n::Int, p::Real=0.5, with_loops=true)
+function RandomDigraph(n::Int, p::Real=0.5, with_loops=false)
     G = IntDigraph(n)
     if !with_loops
         forbid_loops!(G)
