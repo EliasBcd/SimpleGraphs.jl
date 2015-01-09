@@ -179,6 +179,10 @@ constructors, we have the following:
   are the `k`-element subsets of `{1,2,...,n}`. Two vertices are
   adjacent iff they correspond to disjoint sets.
 + `Petersen()` creates the Petersen graph as `Knesser(5,2)`.
++ `Paley(p)` creates the Paley graph with `p` vertices where `p` is a
+  prime congruent to 1 modulo 4. The vertex set is `0:p-1` in which two
+  vertices are adjacent exactly when their difference is a quadratic
+  residue mod `p`.
 
 ### Constructors for directed graphs
 
@@ -251,7 +255,7 @@ We generate the following kinds of matrices for graphs
 
 ## Algorithms
 
-Undirected graphs only at this time. 
+Undirected graphs only at this time.
 
 ### Find an Eulerian tour in the graph with `euler`
 
@@ -288,12 +292,12 @@ julia> euler(G)
  "000"
  ```
 
-The tour is returned as an `Array` of vertices with 
+The tour is returned as an `Array` of vertices with
 `NE(G)+1` elements. If no trail can be found, an empty `Array`
-is returned. 
+is returned.
 
 Note that isolated vertices are ignored.
-	
+
 ### Bipartition
 
 `bipartition` determines if a graph is bipartite and returns a
@@ -305,7 +309,7 @@ julia> bipartition(RandomTree(10))
 Set{Set{Int64}}({Set{Int64}({2,3,5,8,1}),Set{Int64}({7,4,9,10,6})})
 ```
 
-Invoking `bipartition` on a nonbipartite graph throws an error. 
+Invoking `bipartition` on a nonbipartite graph throws an error.
 
 ### Coloring
 
@@ -328,7 +332,7 @@ are mapped to distinct values.
     "010" => 2
     "100" => 2
   ```
-  Applying `two_color` to a nonbipartite graph throws an error. 
+  Applying `two_color` to a nonbipartite graph throws an error.
 
 + `greedy_color` is used to create a proper coloring of a graph given
   an ordering of the vertex set (as an `Array` containing all the
@@ -389,9 +393,9 @@ are mapped to distinct values.
 
 ## Interface to `Graphs.jl`
 
-We provide a `convert_simple` function that takes a `SimpleGraph` 
+We provide a `convert_simple` function that takes a `SimpleGraph`
 or a `SimpleDigraph` as input and returns a Julia
-`Graphs.simple_graph` representation of the same graph 
+`Graphs.simple_graph` representation of the same graph
 (together with dictionaries to match up the vertex sets).
 ```julia
 julia> (G,d,dinv) = convert_simple(Cube(3));

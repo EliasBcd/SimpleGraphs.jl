@@ -3,7 +3,7 @@
 export Complete, Path, Cycle, RandomGraph
 export RandomTree, code_to_tree
 export Grid, Wheel, Cube, BuckyBall
-export Petersen, Kneser
+export Petersen, Kneser, Paley
 
 # Create a complete graph
 function Complete(n::Int)
@@ -144,7 +144,7 @@ end
 # Create an Erdos-Renyi random graph
 function RandomGraph(n::Int, p::Real=0.5)
     G = IntGraph(n)
-    
+
     # guess the size of the edge set to preallocate storage
     m = int(n*n*p)+1
 
@@ -289,3 +289,22 @@ end
 
 # Create the Petersen graph.
 Petersen() = Kneser(5,2)
+
+# Create Paley graphs
+function Paley(p::Int)
+    if mod(p,4) != 1 || ~isprime(p)
+        error("p must be a prime congruent to 1 mod 4")
+    end
+
+    # Quadratic residues mod p
+    qrlist = unique( [ mod(k*k,p) for k=1:p ] )
+
+    G = IntGraph()
+    for u = 0:p-1
+        for k in qrlist
+            v = mod(u+k,p)
+            add!(G,u,v)
+        end
+    end
+    return G
+end
