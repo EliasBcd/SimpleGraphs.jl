@@ -174,6 +174,8 @@ constructors, we have the following:
 + `RandomTree(n)` creates a random tree with `n` vertices. There are
   `n^(n-2)` trees with vertices set `{1,2,...,n}` and they are all
   equally likely.
++ `RandomRegular(n,d)` creates a random regular graph with `n`
+  vertices and all vertices of degree `d`. 
 + `Knesser(n,k)` creates the Knesser graph. The vertices of this graph
   are the `k`-element subsets of `{1,2,...,n}`. Two vertices are
   adjacent iff they correspond to disjoint sets.

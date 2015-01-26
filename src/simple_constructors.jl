@@ -1,6 +1,6 @@
 # functions for building various standard types of graphs
 
-export Complete, Path, Cycle, RandomGraph
+export Complete, Path, Cycle, RandomGraph, RandomRegular
 export RandomTree, code_to_tree
 export Grid, Wheel, Cube, BuckyBall
 export Petersen, Kneser, Paley
@@ -307,4 +307,56 @@ function Paley(p::Int)
         end
     end
     return G
+end
+
+# Called by RandomRegular ... one step
+function RandomRegularBuilder(n::Int, d::Int)
+    # caller has already checked the values of n,d are legit
+    vlist = randperm(n*d)
+    G = IntGraph(n*d)
+    for v=1:2:n*d
+        add!(G,vlist[v], vlist[v+1])
+    end
+
+    for v = n:-1:1
+        mushlist = [ d*(v-1)+1 : v*d ]
+        for k=d-1:-1:1
+            contract!(G,mushlist[k],mushlist[k+1])
+        end
+    end
+    return relabel(G)    
+end
+
+function RandomRegular(n::Int, d::Int, verbose::Bool=false)
+    # sanity checks
+    if n<1 || d<1 || (n*d)%2==1
+        error("n,d must be positive integers and n*d even")
+    end       
+    if verbose
+        println("Trying to build ", d, "-regular graph on ",
+                n, " vertices")
+        count::Int = 0
+    end
+  
+    while true
+        if verbose
+            count += 1
+            println("Attempt ", count)
+            tic()
+        end
+        g = RandomRegularBuilder(n,d)
+        if verbose
+            toc();
+        end
+        dlist = deg(g)
+        if dlist[1] == dlist[n]
+            if verbose
+                println("Success")
+            end
+            return g
+        end
+        if verbose
+            println("Failed; trying again")
+        end
+    end
 end
