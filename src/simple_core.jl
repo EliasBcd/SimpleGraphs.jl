@@ -2,7 +2,7 @@ import Base.show
 
 export SimpleGraph, IntGraph, StringGraph
 export show, NV, NE, has, vertex_type, fastN!
-export vlist, elist, neighbors, getindex, deg
+export vlist, elist, neighbors, getindex, deg, deg_hist
 
 type SimpleGraph{T} <: AbstractSimpleGraph
     V::Set{T}          # Vertex set
@@ -213,6 +213,21 @@ function deg{T}(G::SimpleGraph{T})
     end
     sort!(ds, lt = >)
     return ds
+end
+
+
+# Report how many vertices we have each possible degree.
+# If G has n vertices, this returns an n-long vector whose
+# k'th entry is the number of vertices of degree k-1.
+
+function deg_hist{T}(G::SimpleGraph{T})
+    n = NV(G)
+    degs = deg(G)
+    result = zeros(Int,n)
+    for d in degs
+        result[d+1] += 1
+    end
+    return result
 end
 
 

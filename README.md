@@ -83,6 +83,12 @@ If `G` is a `SimpleGraph` and `v` is one of its vertices, then
 with `G[v]`. The degree of `v` is returned by `deg(G,v)`. A call to
 `deg(G)` returns a sorted list of the degrees of all the vertices.
 
+The function `deg_hist` returns a vector that indicates how many
+vertices of each degree is present in the graph. Because the first
+element of an array has index 1, the counts are offset by one
+place. That is if we put `dh=deg_hist(G)` then `dh[k]` is the number
+of vertices of degree `k-1`.
+
 The situation is more involved if `G` is a `SimpleDigraph`. In this
 case we have the following.
 
@@ -175,7 +181,7 @@ constructors, we have the following:
   `n^(n-2)` trees with vertices set `{1,2,...,n}` and they are all
   equally likely.
 + `RandomRegular(n,d)` creates a random regular graph with `n`
-  vertices and all vertices of degree `d`. 
+  vertices and all vertices of degree `d`.
 + `Knesser(n,k)` creates the Knesser graph. The vertices of this graph
   are the `k`-element subsets of `{1,2,...,n}`. Two vertices are
   adjacent iff they correspond to disjoint sets.
