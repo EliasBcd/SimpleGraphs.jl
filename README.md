@@ -174,6 +174,11 @@ constructors, we have the following:
 + `Grid(n,m)` creates an `n`-by-`m` grid graph.
 + `BuckyBall()` creates the 60-vertex graph that is the 1-skellaton of
   a truncated icosahedron.
++ `Dodecahedron()` creates the dodecahedron graph.
++ `Icosahedron()` creates the icosahedron graph.
++ `Octahedron()` creates the octahedron graph.
++ `Tetrahedron()` creates the tetrahedron graph; this is the same as
+  `Complete(4)`.
 + `RandomGraph(n,p)` creates an Erdos-Renyi random graph with `n`
   vertices and edge probability `p`. The parameter `p` may be omitted,
   in which case the value 1/2 is used.

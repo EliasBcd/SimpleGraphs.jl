@@ -10,6 +10,7 @@ export AbstractSimpleGraph
 include("simple_core.jl")
 include("simple_ops.jl")
 include("simple_constructors.jl")
+include("platonic.jl")
 include("simple_connect.jl")
 include("simple_matrices.jl")
 include("disjoint_sets_helper.jl")
