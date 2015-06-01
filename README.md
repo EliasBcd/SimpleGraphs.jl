@@ -160,7 +160,7 @@ constructors, we have the following:
   `[n1,n2,n3,...,nt]`.
 + `Cube(n)` creates an `n`-dimensional cube graph. The vertices are
    `n`-long character strings of 0s and 1s. Two vertices are adjacent
-   iff they differ in exactly one location.
+   iff they differ in exactly one location. By default, `n=3`.
 + `Path(n)` creates a path graph with `n` vertices. Alternatively, if
    `list` is a 1-dimensional array then this creates a graph with the
    members of `list` as vertices and with edges of the form

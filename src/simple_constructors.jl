@@ -205,7 +205,7 @@ function code_to_tree(code::Array{Int,1})
 end
 
 # Create the Cube graph with 2^n vertices
-function Cube(n::Integer)
+function Cube(n::Integer=3)
     G = StringGraph()
     for u=0:2^n-1
         for shift=0:n-1
@@ -324,20 +324,20 @@ function RandomRegularBuilder(n::Int, d::Int)
             contract!(G,mushlist[k],mushlist[k+1])
         end
     end
-    return relabel(G)    
+    return relabel(G)
 end
 
 function RandomRegular(n::Int, d::Int, verbose::Bool=false)
     # sanity checks
     if n<1 || d<1 || (n*d)%2==1
         error("n,d must be positive integers and n*d even")
-    end       
+    end
     if verbose
         println("Trying to build ", d, "-regular graph on ",
                 n, " vertices")
         count::Int = 0
     end
-  
+
     while true
         if verbose
             count += 1
