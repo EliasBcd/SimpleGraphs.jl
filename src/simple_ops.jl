@@ -173,7 +173,7 @@ end
 
 # Create the line graph of a given graph
 function line_graph{T}(G::SimpleGraph{T})
-    H = SimpleGraph{(T,T)}()
+    H = SimpleGraph{Tuple{T,T}}()
 
     m = NE(G)
     E = elist(G)
@@ -238,7 +238,7 @@ end
 
 # Create the cartesian product of two graphs
 function cartesian{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
-    K = SimpleGraph{(S,T)}()
+    K = SimpleGraph{Tuple{S,T}}()
     for v in G.V
         for w in H.V
             add!(K,(v,w))
@@ -309,7 +309,7 @@ end
 # appended. For example, if the vertex type is String in the original
 # graph, the new vertices are type (String, Int).
 function label_append{S}(G::SimpleGraph{S}, a::Int)
-    mapper = Dict{S,(S,Int)}()
+    mapper = Dict{S,Tuple{S,Int}}()
     for v in G.V
         mapper[v] = (v,a)
     end
@@ -322,7 +322,7 @@ function disjoint_union{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
     GG = label_append(G,1)
     HH = label_append(H,2)
     if S==T
-        K = SimpleGraph{(S,Int)}()
+        K = SimpleGraph{Tuple{S,Int}}()
     else
         K = SimpleGraph{Any}()
     end
@@ -379,7 +379,7 @@ function relabel{S}(G::SimpleGraph{S})
     verts = vlist(G)
     n = length(verts)
     label = Dict{S,Int}()
-    sizehint(label,n)
+    sizehint!(label,n)
 
     for idx = 1:n
         label[verts[idx]] = idx

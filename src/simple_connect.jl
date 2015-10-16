@@ -159,7 +159,7 @@ end
 # find all distances between all vertices
 function dist(G::AbstractSimpleGraph)
     T = vertex_type(G)
-    dd = Dict{(T,T),Int}()
+    dd = Dict{Tuple{T,T},Int}()
     vtcs = vlist(G)
 
     for v in vtcs

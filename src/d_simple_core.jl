@@ -185,7 +185,7 @@ end
 
 # Create a list of all edges in the digraph
 function elist{T}(G::SimpleDigraph{T})
-    E = Set{(T,T)}()
+    E = Set{Tuple{T,T}}()
     for v in G.V
         for w in G.N[v]
             push!(E, (v,w))
@@ -259,7 +259,7 @@ function relabel{S}(G::SimpleDigraph{S})
     verts = vlist(G)
     n = length(verts)
     label = Dict{S,Int}()
-    sizehint(label,n)
+    sizehint!(label,n)
 
     for idx = 1:n
         label[verts[idx]] = idx
@@ -272,7 +272,7 @@ end
 # (u,v) is an edges of G, then {(u,1),(v,2)} is an edge of the new
 # graph.
 function vertex_split{S}(G::SimpleDigraph{S})
-    H = SimpleGraph{(S,Int)}()
+    H = SimpleGraph{Tuple{S,Int}}()
   
     for v in vlist(G)
         add!(H,(v,1))

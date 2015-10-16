@@ -116,7 +116,7 @@ end
 
 # Create a grid graph
 function Grid(n::Int, m::Int)
-    G = SimpleGraph{(Int,Int)}()
+    G = SimpleGraph{Tuple{Int,Int}}()
 
     # add the vertices
     for u=1:n
@@ -146,7 +146,7 @@ function RandomGraph(n::Int, p::Real=0.5)
     G = IntGraph(n)
 
     # guess the size of the edge set to preallocate storage
-    m = int(n*n*p)+1
+    m = round(Int,n*n*p)+1
 
     # generate the edges
     for v=1:n-1
@@ -319,7 +319,7 @@ function RandomRegularBuilder(n::Int, d::Int)
     end
 
     for v = n:-1:1
-        mushlist = [ d*(v-1)+1 : v*d ]
+        mushlist = collect( d*(v-1)+1 : v*d )
         for k=d-1:-1:1
             contract!(G,mushlist[k],mushlist[k+1])
         end

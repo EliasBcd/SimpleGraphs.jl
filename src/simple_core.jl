@@ -102,7 +102,7 @@ function fastN!{T}(G::SimpleGraph{T},flg::Bool=true)
     # otherwise build it.
     if flg == false
         G.N = Dict{T, Set{T}}()
-        sizehint(G.N, NV(G))
+        sizehint!(G.N, NV(G))
     else
         # build the G.N structure.
         # start with empty sets for each vertex
