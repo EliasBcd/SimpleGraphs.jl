@@ -1,4 +1,5 @@
-import Base.show
+import Base.show, Base.==, Base.ctranspose, Base.*
+import Base.getindex
 
 export SimpleGraph, IntGraph, StringGraph
 export show, NV, NE, has, vertex_type, fastN!
@@ -6,12 +7,12 @@ export vlist, elist, neighbors, getindex, deg, deg_hist
 
 type SimpleGraph{T} <: AbstractSimpleGraph
     V::Set{T}          # Vertex set
-    E::Set{(T,T)}      # Edge set
+    E::Set{Tuple{T,T}}      # Edge set
     N::Dict{T,Set{T}}  # Optional neighbor sets
     Nflag::Bool        # Tells if N is used or not (default on)
     function SimpleGraph(Nflag::Bool=true)
         V = Set{T}()
-        E = Set{(T,T)}()
+        E = Set{Tuple{T,T}}()
         N = Dict{T,Set{T}}()
         G = new(V,E,N,Nflag)
     end
@@ -34,7 +35,7 @@ StringGraph() = SimpleGraph{ASCIIString}()
 # two tokens on the line are added as an edge (assuming they are
 # different). Any extra tokens on the line are ignored.
 # Also: If the line begins with a # character, the line is ignored.
-function StringGraph(file::String)
+function StringGraph(file::AbstractString)
     G = StringGraph()
     load!(G,file)
     return G
@@ -43,7 +44,7 @@ end
 # Helper function for StrinGraph(file), and can be used to add
 # vertices and edges to a graph (assuming its vertex type can
 # accomodate strings).
-function load!(G::SimpleGraph, file::String)
+function load!(G::SimpleGraph, file::AbstractString)
     f = open(file, "r")
     while(~eof(f))
         line = chomp(readline(f))
@@ -233,6 +234,6 @@ end
 
 import Base.hash
 
-function hash(G::SimpleGraph, h::Uint64 = uint64(0))
+function hash(G::SimpleGraph, h::UInt64 = UInt64(0))
     return hash(G.V,h) + hash(G.E,h)
 end

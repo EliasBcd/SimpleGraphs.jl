@@ -229,7 +229,7 @@ function ==(G::SimpleDigraph, H::SimpleDigraph)
     return isequal(G,H)
 end
 
-function hash(G::SimpleDigraph, h::Uint64 = uint64(0))
+function hash(G::SimpleDigraph, h::UInt64 = UInt64(0))
     return hash(G.V,h) + hash(G.N,h)
 end
 
