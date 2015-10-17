@@ -4,6 +4,9 @@
 module SimpleGraphs
 using DataStructures
 
+"""
+`AbstractSimpleGraph` is a parent class for `SimpleGraph` and `SimpleDigraph`.
+"""
 abstract AbstractSimpleGraph
 export AbstractSimpleGraph
 
