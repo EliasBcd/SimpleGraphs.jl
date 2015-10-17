@@ -5,6 +5,11 @@ export is_looped, allow_loops!, forbid_loops!, remove_loops!, loops
 export out_deg, in_deg, deg, dual_deg
 export in_neighbors, out_neighbors, simplify, vertex_split
 
+"""
+`SimpleDigraph()` creates a new directed graph with vertices of `Any`
+type. This can be restricted to vertics of type `T` with
+`SimpleDigraph{T}()`.
+"""
 type SimpleDigraph{T} <: AbstractSimpleGraph
     V::Set{T}              # vertex set of this graph
     N::Dict{T,Set{T}}      # map vertices to out-neighbors
@@ -20,11 +25,22 @@ end
 
 SimpleDigraph() = SimpleDigraph{Any}()
 IntDigraph() = SimpleDigraph{Int}()
+
+
+"""
+`StringDigraph()` creates a new directe graph with vertices of type
+`ASCIIString`.
+"""
 StringDigraph() = SimpleDigraph{ASCIIString}()
 
 vertex_type{T}(G::SimpleDigraph{T}) = T
 
+""" 
+`IntDigraph()` creates a new directed graph with vertices of type
+`Int64`. 
 
+`IntDigraph(n)` prepopulates the vertex set with vertices `1:n`.
+"""
 function IntDigraph(n::Int)
     G = IntDigraph()
     for v=1:n
@@ -34,9 +50,19 @@ function IntDigraph(n::Int)
 end
 
 # Do we allow loops?
+
+"""
+`is_looped(G)` indicates if the directed graph `G` is capable of
+having loops. Returning `true` does not mean that digraph actually
+has loops.
+"""
 is_looped(G::SimpleDigraph) = G.looped
 
 # Grant permission for loops
+
+"""
+`allow_loops!(G)` enables `G` to have loops`.
+"""
 function allow_loops!(G::SimpleDigraph)
     G.looped = true
     nothing
@@ -44,6 +70,11 @@ end
 
 # Remove all loops from this digraph (but don't change loop
 # permission)
+
+"""
+`remove_loops!(G)` removes all loops (if any) in the digraph, but
+does *not* alter the `G`'s ability to have loops.
+"""
 function remove_loops!(G::SimpleDigraph)
     if !G.looped
         return nothing
@@ -55,6 +86,10 @@ function remove_loops!(G::SimpleDigraph)
 end
 
 # Forbid loops (and delete any that we might have)
+"""
+`forbid_loops!(G)` disables the digraph's ability to have loops. It 
+also removes any loops it may already have.
+"""
 function forbid_loops!(G::SimpleDigraph)
     remove_loops!(G)
     G.looped = false
@@ -62,6 +97,9 @@ function forbid_loops!(G::SimpleDigraph)
 end
 
 # List all the loops in this digraph
+"""
+`loops(G)` returns a list of vertices at which a loop is present.
+"""
 function loops{T}(G::SimpleDigraph{T})
     if !is_looped(G)
         return T[]
@@ -80,10 +118,24 @@ function loops{T}(G::SimpleDigraph{T})
 end
 
 # Out-degree of a vertex and the sequence for the whole digraph
+
+"""
+`out_deg(G,v)` is the out degree of vertex `v`.
+
+`out_deg(G)` is a sorted list of the out degrees of all vertices in
+the directed graph.
+"""
 out_deg(G::SimpleDigraph, v) = length(G.N[v])
 out_deg(G::SimpleDigraph) = sort([out_deg(G,v) for v in G.V], rev=true)
 
 # Likewise for indegrees
+
+"""
+`in_deg(G,v)` is the in degree of vertex `v`.
+
+`in_deg(G)` is a sorted list of the in degrees of all vertices in
+the directed graph.
+"""
 in_deg(G::SimpleDigraph, v) = length(G.NN[v])
 in_deg(G::SimpleDigraph) = sort([in_deg(G,v) for v in G.V], rev=true)
 
@@ -92,11 +144,21 @@ deg(G::SimpleDigraph, v) = in_deg(G,v) + out_deg(G,v)
 deg(G::SimpleDigraph) = sort([ deg(G,v) for v in G.V], rev=true)
 
 # dual_deg gives the two-tuple (out,in)-degrees
+
+"""
+`dual_deg(G,v)` returns a two-tuple consisting of the out degree and
+in degree of the vertex `v`.
+
+`dual_deg(G)` gives a list of all the dual degrees.
+"""
 dual_deg(G::SimpleDigraph, v) = (out_deg(G,v), in_deg(G,v))
 dual_deg(G::SimpleDigraph) = sort([ dual_deg(G,v) for v in G.V ], rev=true)
 
 
 # out neighbors of a vertex
+"""
+`out_neighbors(G,v)` gives a list of all `v`'s out neighbors.
+"""
 function out_neighbors(G::SimpleDigraph, v)
     result = collect(G.N[v])
     try
@@ -106,6 +168,9 @@ function out_neighbors(G::SimpleDigraph, v)
 end
 
 # in neighbors of a vertex
+"""
+`in_neighbors(G,v)` gives a list of all of `v`'s in neighbors.
+"""
 function in_neighbors(G::SimpleDigraph, v)
     result = collect(G.NN[v])
     try
@@ -271,6 +336,13 @@ end
 # Split vertices of a digraph to make a bipartite undirected graph. If
 # (u,v) is an edges of G, then {(u,1),(v,2)} is an edge of the new
 # graph.
+
+"""
+`vertex_split(G)` converts the directed graph `G` into an undirected
+bipartite graph. For each vertex `v` in `G`, the output graph has two
+vertices `(v,1)` and `(v,2)`. Each edge `(v,w)` of `G` is rendered as
+an edge between `(v,1)` and `(w,2)` in the output graph.
+"""
 function vertex_split{S}(G::SimpleDigraph{S})
     H = SimpleGraph{Tuple{S,Int}}()
   

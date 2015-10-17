@@ -103,9 +103,8 @@ end
 
     
 """ 
-`vertex_type(G::SimpleGraph)` returns the data type of the vertices
-this graph may hold. For example, if `G=IntGraph()` then this returns
-`Int64`.`
+`vertex_type(G)` returns the data type of the vertices this graph may hold.
+For example, if `G=IntGraph()` then this returns `Int64`.`
 """    
 vertex_type{T}(G::SimpleGraph{T}) = T
 
