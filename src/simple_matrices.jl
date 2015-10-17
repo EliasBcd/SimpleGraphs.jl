@@ -3,6 +3,16 @@
 export adjacency, laplace, incidence, dist_matrix
 
 # Adjaceny Matrix
+
+"""
+`adjacency(G)` returns the adjacency matrix of `G`. 
+
+Note: If the vertices can be sorted by `sort`, then the first row of
+the adjacency matrix correspons to the first vertex (in order) in `G`
+and so forth. However, if the vertices are not sortable in this way,
+the mapping between vertices and rows/columns of the matrix is
+unpredictable.
+"""
 function adjacency(G::SimpleGraph)
     n = NV(G)
     A = zeros(Int,(n,n))
@@ -21,6 +31,13 @@ function adjacency(G::SimpleGraph)
 end
 
 # Laplace matrix
+
+""" 
+`laplace(G)` returns the Laplacian matrix of `G`. This is the
+adjacency matrix minus the (diagonal) degree matrix. See `adjacency`
+to understand how vertices correspond to rows/columns of the resulting
+matrix.
+"""
 function laplace(G::SimpleGraph)
     A = adjacency(G)
     d = collect(sum(A,1))
@@ -30,6 +47,18 @@ function laplace(G::SimpleGraph)
 end
 
 # incidence matrix
+"""
+
+`incidence(G)` returns the vertex-edge incidence matrix of `G`.
+
+Notes:
+
+* The result is a sparse matrix. Wrap in `full` to convert to nonsparse.
+
+* Each column of the matrix has exactly one `+1` and one `-1`. If `G`
+is undirected and an unsigned incidence matrix is desired, use
+`incidence(G,false)`. 
+"""
 function incidence(G::SimpleGraph, signed::Bool = true)
     n = NV(G)
     m = NE(G)
@@ -52,6 +81,11 @@ function incidence(G::SimpleGraph, signed::Bool = true)
 end
 
 # Create the n-by-n distance matrix
+"""
+`dist_matrix(G)` returns a matrix whose `i,j`-entry is the distance
+from the `i`th vertex to the `j`th vertex. If there is no `i,j`-path,
+that entry is `-1`.
+"""
 function dist_matrix(G::AbstractSimpleGraph)
     vtcs = vlist(G)
     n = length(vtcs)

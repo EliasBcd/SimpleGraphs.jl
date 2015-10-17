@@ -33,6 +33,13 @@ function ==(G::SimpleGraph, H::SimpleGraph)
 end
 
 # adding vertices
+"""
+`add!(G,v)` adds a new vertex `v` to the graph.
+
+`add!(G,v,w)` adds a new edge `(v,w)` to the graph. If one (or both)
+of those vertices is not already in the graph, it is added to the
+vertex set.
+"""
 function add!{T}(G::SimpleGraph{T}, v)
     if has(G,v)
         return false
@@ -74,6 +81,12 @@ function add!{T}(G::SimpleGraph{T}, v, w)
 end
 
 # edge deletion
+"""
+`delete!(G,v)` deletes vertex `v` (and any edges incident with `v`)
+from the graph.
+
+`delete!(G,v,w)` deletes the edge `(v,w)` from `G`.
+"""
 function delete!(G::SimpleGraph, v, w)
     flag = false
     if has(G,v,w)
@@ -110,6 +123,15 @@ end
 # the graph. Usually, vertices u and v are adjacent, but we don't
 # require that. If either u or v is not a vertex of this graph, or if
 # u==v, we return false. Otherwise we return true to indicate success.
+"""
+`contract!(G,u,v)` contracts the edge `(u,v)` in the graph. The merged
+vertex is named `u` (hence `contract!(G,v,u)` results in a different,
+albeit isomorphic, graph).
+
+Note: The edge `(u,v)` need not be present in the graph. If missing,
+this is equivalent to first adding the edge to the graph and then
+contracting it.
+"""
 function contract!(G::SimpleGraph, u, v)
     if !has(G,u) || !has(G,v) || u==v
         return false
@@ -125,6 +147,10 @@ end
 
 # Given a simple graph G and a set of vertices A, form the induced
 # subgraph G[A]. Note that A must be a subset of V(G).
+"""
+`induce(G,A)` creates the induced subgraph of `G` with vertices in the
+set `A`.
+"""
 function induce{T}(G::SimpleGraph{T}, A::Set)
     # Check that A is a subset of V(G)
     for v in A
@@ -172,6 +198,9 @@ function induce{T}(G::SimpleGraph{T}, A::Set)
 end
 
 # Create the line graph of a given graph
+"""
+`line_graph(G)` creates the line graph of `G`.
+"""
 function line_graph{T}(G::SimpleGraph{T})
     H = SimpleGraph{Tuple{T,T}}()
 
@@ -194,6 +223,10 @@ function line_graph{T}(G::SimpleGraph{T})
 end
 
 # Create the complement of a graph.
+"""
+`complement(G)` creates (as a new graph) the complement of `G`.
+Note that `G'` is a short cut for `complement(G)`.
+"""
 function complement{T}(G::SimpleGraph{T})
     H = SimpleGraph{T}()
     V = vlist(G)
@@ -216,9 +249,15 @@ function complement{T}(G::SimpleGraph{T})
 end
 
 # We can use G' to mean complement(G)
+"""
+`G'` is equivalent to `complement(G)`.
+"""
 ctranspose(G::SimpleGraph) = complement(G)
 
 # complement in place. Returns None.
+"""
+`complement!(G)` replaces `G` with its complement.
+"""
 function complement!(G::SimpleGraph)
     n = NV(G)
     V = vlist(G)
@@ -237,6 +276,10 @@ function complement!(G::SimpleGraph)
 end
 
 # Create the cartesian product of two graphs
+"""
+`cartesian(G,H)` creates the Cartesian product of the two graphs.
+This can be abbreviated as `G*H`. 
+"""
 function cartesian{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
     K = SimpleGraph{Tuple{S,T}}()
     for v in G.V
@@ -263,12 +306,20 @@ function cartesian{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
 end
 
 # Use G*H for Cartesian product
+"""
+For `SimpleGraph`s: `G*H` is equivalent to `cartesian(G,H)`.
+"""
 function *{S,T}(G::SimpleGraph{S},H::SimpleGraph{T})
     return cartesian(G,H)
 end
 
 # The join of two graphs is formed by taking disjoint copies of the
 # graphs and all possible edges between the two.
+
+"""
+`join(G,H)` is a new graph formed by taking disjoint copies of 
+`G` and `H` together with all possible edges between those copies.
+"""
 function join{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
     K = disjoint_union(G,H)
     for v in G.V
@@ -281,6 +332,11 @@ end
 
 # Create the union of two graphs. If they have vertices or edges in
 # common, that's OK.
+
+"""
+`union(G,H)` creates the union of the graphs `G` and `H`. The graphs
+may (and typically do) have common vertices or edges.
+"""
 function union{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
     if S==T
         K = SimpleGraph{S}()
@@ -318,6 +374,11 @@ end
 
 # The disjoint_union of two graphs, G and H, is a new graph consisting of
 # disjoint copies of G and H.
+
+"""
+`disjoint_union(G,H)` is a new graph formed by taking disjoint copies
+of `G` and `H` (and no additional edges).
+"""
 function disjoint_union{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
     GG = label_append(G,1)
     HH = label_append(H,2)
@@ -346,6 +407,14 @@ end
 # Repeatedly remove vertices with the given degree or less until there
 # are no such vertices remaining in the graph. The default trim(G)
 # simply removes all isolated vertices.
+
+"""
+`trim(G)` returns a copy of `G` with all isolated vertices removed.
+
+`trim(G,d)` returns a copy of `G` in which we iteratively remove all
+vertices of degree `d` or smaller. For example, if `G` is a tree,
+`trim(G,1)` will eventually remove all vertices.
+"""
 function trim(G::SimpleGraph, d::Int = 0)
     H = deepcopy(G)
     while NV(H) > 0 && minimum(deg(H)) <= d
@@ -360,6 +429,14 @@ end
 
 # Relabel the vertics of a graph based on a dictionary mapping old
 # vertex names to new
+
+"""
+`relabel(G)` returns a copy of `G` in which the vertices are renamed
+`1:n`.
+
+`relabel(G,d)` (where `d` is a `Dict`) returns a copy of `G` in which
+vertex `v` is renamed `d[v]`.
+"""
 function relabel{S,T}(G::SimpleGraph{S}, label::Dict{S,T})
     H = SimpleGraph{T}()
     for v in G.V

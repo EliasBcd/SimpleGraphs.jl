@@ -5,6 +5,15 @@ export RandomTree, code_to_tree
 export Grid, Wheel, Cube, BuckyBall
 export Petersen, Kneser, Paley
 
+"""
+`Complete(n)` returns a complete graph with `n` vertices `1:n`.
+
+`Complete(n,m)` returns a complete bipartite graph with `n` vertices
+in one part and `m` vertices in the other.
+
+`Complete([n1,n2,...,nt])` returns a complete multipartite graph with
+parts of size `n1`, `n2`, ..., `nt`.
+"""
 # Create a complete graph
 function Complete(n::Int)
     G = IntGraph(n)
@@ -68,7 +77,16 @@ function Complete(parts::Array{Int,1})
     return G
 end
 
+
+
 # Create a path graph on n vertices
+"""
+`Path(n)` creates a path graph with `n` vertices named `1:n`.
+
+`Path(array)` creates a path graph with vertices `array[1]`,
+`array[2]`, etc.  
+"""
+
 function Path(n::Int)
     G = IntGraph(n)
     for v = 1:n-1
@@ -103,6 +121,11 @@ end
 
 # Create the wheel graph on n vertices: a cycle on n-1 vertices plus
 # an additional vertex adjacent to all the vertices on the wheel.
+"""
+`Wheel(n)` creates a wheel graph with `n` vertices. That is, a cycle
+with `n-1` vertices `1:(n-1)` all adjacent to a common single vertex,
+`n`.
+"""
 function Wheel(n::Int)
     if n < 4
         error("Wheel graphs must have at least 4 vertices")
@@ -115,6 +138,11 @@ function Wheel(n::Int)
 end
 
 # Create a grid graph
+"""
+`Grid(n,m)` creates an `n`-by-`m` grid graph. For other grids, we
+suggest `Path(n1)*Path(n2)*Path(n3)` optionally wrapped in
+`relabel`. See also: `Cube`.
+"""
 function Grid(n::Int, m::Int)
     G = SimpleGraph{Tuple{Int,Int}}()
 
@@ -142,6 +170,10 @@ function Grid(n::Int, m::Int)
 end
 
 # Create an Erdos-Renyi random graph
+"""
+`RandomGraph(n,p=0.5)` creates an Erdos-Renyi random graph with `n`
+vertices and edge probability `p`.
+"""
 function RandomGraph(n::Int, p::Real=0.5)
     G = IntGraph(n)
 
@@ -161,8 +193,12 @@ end
 
 # Generate a random tree on vertex set 1:n. All n^(n-2) trees are
 # equally likely.
-function RandomTree(n::Int)
 
+"""
+`RandomTree(n)` creates a random tree on `n` vertices each with
+probability `1/n^(n-2)`.
+"""
+function RandomTree(n::Int)
     if n<0   # but we allow n==0 to give empty graph
         error("Number of vertices cannot be negative")
     end
@@ -205,6 +241,11 @@ function code_to_tree(code::Array{Int,1})
 end
 
 # Create the Cube graph with 2^n vertices
+"""
+`Cube(n)` creates the `n`-dimensional cube graph. This graph has `2^n`
+vertices named by all possible length-`n` strings of 0s and 1s. Two
+vertices are adjacent iff they differ in exactly one position.
+"""
 function Cube(n::Integer=3)
     G = StringGraph()
     for u=0:2^n-1
@@ -217,6 +258,10 @@ function Cube(n::Integer=3)
 end
 
 # Create the BuckyBall graph
+
+"""
+`BuckyBall()` returns the Bucky ball graph.
+"""
 function BuckyBall()
     G = IntGraph()
     edges = [(1,3), (1,49), (1,60), (2,4), (2,10), (2,59),
@@ -264,6 +309,12 @@ end
 # The Kneser graph Kneser(n,k) has C(n,k) vertices that are the
 # k-element subsets of 1:n in which two vertices are adjacent if (as
 # sets) they are disjoint. The Petersen graph is Kneser(5,2).
+
+"""
+`Kneser(n,m)` creates the Kneser graph whose vertices are all the
+`m`-element subsets of `1:n` in which two vertices are adjacent iff
+they are disjoint.
+"""
 function Kneser(n::Int,k::Int)
     A = array2set(collect(1:n))
     vtcs = collect(subsets(A,k))
@@ -288,9 +339,22 @@ function Kneser(n::Int,k::Int)
 end
 
 # Create the Petersen graph.
+"""
+`Petersen()` returns the Petersen graph. The vertices are labeled as
+the 2-element subsets of `1:5`. Wrap in `relabel` to have vertices
+named `1:10`. See also: `Kneser`.
+"""
+
 Petersen() = Kneser(5,2)
 
 # Create Paley graphs
+
+"""
+`Paley(p)` creates the Paley graph with `p` vertices named
+`0:(p-1)`. Here `p` must be a prime with `p%4==1`. Vertices `u` and
+`v` are adjacent iff `u-v` is a quadratic residue (perfect square)
+modulo `p`.
+"""
 function Paley(p::Int)
     if mod(p,4) != 1 || ~isprime(p)
         error("p must be a prime congruent to 1 mod 4")
@@ -327,6 +391,12 @@ function RandomRegularBuilder(n::Int, d::Int)
     return relabel(G)
 end
 
+"""
+`RandomRegular(n,d)` creates a random `d`-regular graph on `n`
+vertices. This can take a while especially if the arguments are
+large. Call with an optional third argument to activate verbose
+progress reports: `RandomRegular(n,p,true)`.
+"""
 function RandomRegular(n::Int, d::Int, verbose::Bool=false)
     # sanity checks
     if n<1 || d<1 || (n*d)%2==1
