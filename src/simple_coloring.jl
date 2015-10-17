@@ -4,6 +4,12 @@ export bipartition, two_color, greedy_color, random_greedy_color
 
 # Create a two-coloring of a graph or die trying. Returns a map from
 # the vertex set to the set {1,2}, or error if no such mapping exists.
+
+"""
+`two_color(G)` creates a two-coloring of the graph or throws an error
+if tghe graph is not bipartite. The output is a `Dict` mapping the
+vertex set to the values 1 and 2.
+"""
 function two_color{T}(G::SimpleGraph{T})
     f = Dict{T,Int}()
     for A in components(G)
@@ -31,6 +37,11 @@ end
 
 # Create a bipartition of a graph or die trying. Returns a set {X,Y}
 # that is a bipartition of the vertex set of G.
+
+"""
+`bipartition(G)` creates a bipartition of the graph (or returns an
+error if the graph is not bipartite. Output is a set of sets.
+"""
 function bipartition{T}(G::SimpleGraph{T})
     f::Dict{T,Int} = two_color(G)
     X = Set{T}()
@@ -52,6 +63,17 @@ end
 # Color a graph by the greedy algorithm in the sequence specified by
 # seq. The array seq must be a permutation of G.V. We don't check
 # that's true!
+
+"""
+`greedy_color(G,seq)` creates a greedy proper coloring of the
+graph. The argument `seq` should be a 1-dimensional array containing
+every vertex exactly once (the function does not check this for
+you). The function follows that order in creating the coloring which
+is returned to you as a `Dict` mapping vertices to positive integers
+(representing the colors).
+
+If `seq` is omitted, a random permutation of the vertices is used.
+"""
 function greedy_color{T}(G::SimpleGraph{T}, seq::Array{T,1})
     f = Dict{T,Int}()  # this is the mapping from V to colors
     maxf::Int = 0      # largest color used
@@ -102,6 +124,12 @@ end
 # greedy_color; return one that uses the fewest colors. This do as
 # well as or better than greedy_color on some decreasing order of
 # degree.
+
+"""
+`random_greedy_color(G, reps)` repeatedly invokes `greedy_color` using
+random permutations of the vertex set. After `reps` iterations, the
+best coloring found is returned.
+"""
 function random_greedy_color{T}(G::SimpleGraph{T}, reps::Int=1)
     n = NV(G)
     bestf = greedy_color(G)  # degree order default start

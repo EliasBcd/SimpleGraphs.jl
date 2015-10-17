@@ -5,6 +5,15 @@ export SimpleGraph, IntGraph, StringGraph
 export show, NV, NE, has, vertex_type, fastN!
 export vlist, elist, neighbors, getindex, deg, deg_hist
 
+"""
+The `SimpleGraph` type represents a simple graph; that is, an
+undirected graph with no loops and no multiple edges.
+
+Use `SimpleGraph()` to create a new graph in which the vertices may be
+`Any` type. Use `SimpleGraph{T}()` to create a new graph in which the
+vertices are of type `T`. See `IntGraph` and `StringGraph` as special
+cases.
+"""
 type SimpleGraph{T} <: AbstractSimpleGraph
     V::Set{T}          # Vertex set
     E::Set{Tuple{T,T}}      # Edge set
@@ -44,13 +53,6 @@ ignored.
 """
 StringGraph() = SimpleGraph{ASCIIString}()
 
-# Create a new StringGraph by reading a file.
-# Each line of the file should contain one or two tokens separated by
-# space. If the line contains a single token, we add that token as a
-# vertex. If the line contains two (or more) tokens, then the first
-# two tokens on the line are added as an edge (assuming they are
-# different). Any extra tokens on the line are ignored.
-# Also: If the line begins with a # character, the line is ignored.
 function StringGraph(file::AbstractString)
     G = StringGraph()
     load!(G,file)
@@ -81,8 +83,12 @@ function load!(G::SimpleGraph, file::AbstractString)
     end
 end
 
-# An IntGraph has integer vertices. The basic form creates an empty
-# SimpleGraph{int}.
+"""
+`IntGraph()` creates a new `SimpleGraph` whose vertices are of type
+`Int`. Called as `IntGraph(n::Int)` prepopulates the vertex set with
+vertices `1:n`.
+"""
+    
 IntGraph() = SimpleGraph{Int}()
 
 # With a postive integer argument, adds 1:n as vertex set, but no
@@ -95,19 +101,46 @@ function IntGraph(n::Int)
     return G
 end
 
-# Determine the type of vertex this graph holds
+    
+""" 
+`vertex_type(G::SimpleGraph)` returns the data type of the vertices
+this graph may hold. For example, if `G=IntGraph()` then this returns
+`Int64`.`
+"""    
 vertex_type{T}(G::SimpleGraph{T}) = T
 
-# number of vertices and edges
+    # number of vertices and edges
+
+
+"""
+`NV(G)` returns the number of vertices in `G`.
+"""    
 NV(G::AbstractSimpleGraph) = length(G.V)
+
+"""
+`NE(G)` returns the number of edges in `G`.
+"""
 NE(G::SimpleGraph) = length(G.E)
 
-# check for membership of a vertex or edge
+
+"""
+`has(G,v)` returns `true` iff `v` is a vertex of `G`.
+
+`has(G,v,w)` returns `true` iff `(v,w)` is an edge of `G`.
+"""    
 has(G::AbstractSimpleGraph, v) = in(v,G.V)
 has(G::SimpleGraph, v, w) = in((v,w), G.E) || in((w,v), G.E)
 
 # fastN(G,true) creates an additional data structure to speed up
 # neighborhood lookups.
+
+""" 
+`fastN!(G,flg=true)` is used to turn on (or off) fast neighborhood
+lookup in graphs. Switching this off decreases the size of the data
+structure holding the graph, but slows down look up of edges.  
+
+**Note**: Fast neighborhood look up is on by default.
+"""
 function fastN!{T}(G::SimpleGraph{T},flg::Bool=true)
     # if no change, do nothing
     if flg == G.Nflag
@@ -153,7 +186,10 @@ function vertex2idx(G::AbstractSimpleGraph)
     return d
 end
 
-# get the vertices as a (sorted if possible) list
+    # get the vertices as a (sorted if possible) list
+"""
+`vlist(G)` returns the vertices of `G` as a list (array).
+"""
 function vlist(G::AbstractSimpleGraph)
     result = collect(G.V)
     try
@@ -162,7 +198,9 @@ function vlist(G::AbstractSimpleGraph)
     return result
 end
 
-# get the edges as a (sorted if possible) list
+"""
+`elist(G)` returns the edges of `G` as a list (array).
+"""    
 function elist(G::SimpleGraph)
     result = collect(G.E)
     try
@@ -171,7 +209,12 @@ function elist(G::SimpleGraph)
     return result
 end
 
-# Get the neighbors of a vertex
+    # Get the neighbors of a vertex
+"""
+`neighbors(G,v)` returns a list of the neighbors of `v`. 
+
+May also be invoked as `G[v]`.
+"""
 function neighbors{T}(G::SimpleGraph{T}, v)
     if ~has(G,v)
         error("Graph does not contain requested vertex")
@@ -202,6 +245,11 @@ getindex(G::SimpleGraph,v) = neighbors(G,v)
 getindex(G::SimpleGraph,v,w) = has(G,v,w)
 
 # Degree of a vertex
+"""
+`deg(G,v)` gives the degree of `v` in `G`.
+
+`deg(G)` gives the degree sequence (sorted).
+"""
 function deg(G::SimpleGraph, v)
     if ~has(G,v)
         error("Graph does not contain requested vertex")
@@ -235,8 +283,14 @@ end
 
 # Report how many vertices we have each possible degree.
 # If G has n vertices, this returns an n-long vector whose
-# k'th entry is the number of vertices of degree k-1.
+    # k'th entry is the number of vertices of degree k-1.
 
+"""
+`deg_hist(G)` gives a tally of how many vertices of each degree are
+present in the graph. Because Julia arrays are 1-based, the indexing
+is a bit off. Specifically, entry `k` in the returned array is the
+number of vertices of degree `k-1`.
+"""
 function deg_hist{T}(G::SimpleGraph{T})
     n = NV(G)
     degs = deg(G)

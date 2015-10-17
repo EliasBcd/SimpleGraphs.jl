@@ -1,6 +1,5 @@
 export Tetrahedron, Dodecahedron, Icosahedron, Octahedron
 
-
 function add_edge_matrix!(G::SimpleGraph, edges::Array{Int,2})
     ne = size(edges,1)
     for j=1:ne
@@ -10,8 +9,14 @@ function add_edge_matrix!(G::SimpleGraph, edges::Array{Int,2})
     return
 end
 
+"""
+`Tetrahedron()` creates the tetrahedron `SimpleGraph`.
+"""
 Tetrahedron() = Complete(4)
 
+"""
+`Dodecahedron()` creates the dodecahedron `SimpleGraph`.
+"""
 function Dodecahedron()
     G = IntGraph()
     edges = [
@@ -50,6 +55,9 @@ function Dodecahedron()
     return G
 end
 
+"""
+`Icosahedron()` creates the icosahedron `SimpleGraph`.
+"""
 function Icosahedron()
     G = IntGraph()
     edges = [
@@ -88,7 +96,9 @@ function Icosahedron()
     return G
 end
 
-
+"""
+`Octahedron()` creates the octaahedron `SimpleGraph`.
+"""
 function Octahedron()
     G = IntGraph()
     edges = [

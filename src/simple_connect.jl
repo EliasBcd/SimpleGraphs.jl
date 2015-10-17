@@ -4,6 +4,11 @@ export components, num_components, is_connected, spanning_forest
 export find_path, dist, diam, is_cut_edge
 
 # Find the components of the graph as a Set of subsets of the vertices
+
+"""
+`components(G)` returns the vertex sets of the connected components of
+`G` (as a set of sets.
+"""
 function components{T}(G::SimpleGraph{T})
     VL = vlist(G)
 
@@ -21,6 +26,9 @@ function components{T}(G::SimpleGraph{T})
 end
 
 # count the number of connected components
+"""
+`num_components(G)` returns the number of connected components in `G`.
+"""
 function num_components{T}(G::SimpleGraph{T})
     if NV(G)<2
         return NV(G)
@@ -37,12 +45,19 @@ function num_components{T}(G::SimpleGraph{T})
 end
 
 # determine if the graph is connected
+"""
+`is_connected(G)` determines if `G` is connected.
+"""
 function is_connected{T}(G::SimpleGraph{T})
     return num_components(G) <= 1
 end
 
 # create a spanning forest of G, i.e., a maximal acyclic spanning
 # subgraph. If G is connected, this is a tree.
+
+"""
+`spanning_forest(G)` creates a maximal acyclic subgraph of `G`.
+"""
 function spanning_forest{T}(G::SimpleGraph{T})
     H = SimpleGraph{T}()
     if NV(G) == 0
@@ -70,6 +85,11 @@ function spanning_forest{T}(G::SimpleGraph{T})
 end
 
 # find a shortest path between vertices
+
+"""
+`find_path(G,s,t)` finds a shortest path from `s` to `t`. If no
+such path exists, an empty list is returned.
+"""
 function find_path(G::AbstractSimpleGraph,s,t)
     T = vertex_type(G)
     if ~has(G,s) || ~has(G,t)
@@ -119,6 +139,17 @@ end
 # Int, we use -1 to signal this.
 
 # find the distance between specified vertices
+
+"""
+`dist(G,u,v)` finds the length of a shortest path from `u` to `v` in
+`G`. Returns `-1` if no such path exists.
+
+`dist(G,u)` finds the distance from `u` to all other vertices in
+`G`. Result is returned as a `Dict`.
+
+`dist(G)` finds all pairs of distances in `G`. Result is a `Dict`
+whose `[u,v]` entry is the distance from `u` to `v`.
+"""
 function dist(G::AbstractSimpleGraph,u,v)
     return length(find_path(G,u,v))-1
 end
@@ -182,6 +213,11 @@ end
 
 # Determine if a given edge in a graph is a cut edge. If there is no
 # such edge in the graph, an error is raised.
+
+"""
+`is_cut_edge(G,u,v)` [or `is_cut_edge(G,e)`] determins if `(u,v)` [or
+`e`] is a cut edge of `G`.
+"""
 function is_cut_edge(G::SimpleGraph, u, v)
     if !has(G,u,v)
         error("No such edge in this graph")
