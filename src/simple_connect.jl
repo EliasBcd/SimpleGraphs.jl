@@ -204,6 +204,10 @@ function dist(G::AbstractSimpleGraph)
 end
 
 # Calculate the diameter of a graph, but return -1 if not connected.
+
+"""
+`diam(G)` returns the diameter of `G` or `-1` if `G` is not connected.
+"""
 function diam(G::SimpleGraph)
     if is_connected(G)
         return maximum(values(dist(G)))
