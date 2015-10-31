@@ -4,6 +4,57 @@ To get a sense of all the functionality provided, you may need to look
 in the source files directly. Of course, our goal is to have this
 documentation be complete. Your help is welcome.
 
+
+# Welcome! It's a `Simple` world
+
+This repository contains the `SimpleGraphs` module which is the root
+of a suite of Julia modules for dealing with basic combinatorial
+objects that includes these:
+
++ `SimpleGraphs` (this module): Defines the `SimpleGraph` and
+  `SimpleDigraph` types together with a variety of constructors,
+  functions for manipulating the graphs (e.g. adding/deleting
+  vertices/edges), and functions to ascertain properties of these
+  graphs (such as shortest paths between given vertices).
+
++ `SimpleGraphAlgorithms`: Additional functions whose operation relies
+  on integer linear programming.
+
++ `SimpleGraphDrawings`: Provides the `SimpleGraphDrawing` type that
+  wraps around a `SimpleGraph` and functions for drawing/visualizing
+  graphs.
+
++ `SimplePosets`: Provides the `SimplePoset` type for working with
+  partially ordered sets.
+
++ `SimplePosetAlgorithms`: Additional functions for the `SimplePoset`
+  type. These functions relay on integer leinar programming.
+	
+
+## Collect the whole set!
+
+In Julia, the following commands will install these repositories into
+your `.julia` folder for easy use:
+
+```julia
+Pkg.clone("https://github.com/scheinerman/SimpleGraphs.jl.git")
+Pkg.clone("https://github.com/scheinerman/SimpleGraphDrawings.jl.git")
+Pkg.clone("https://github.com/scheinerman/SimpleGraphAlgorithms.jl.git")
+Pkg.clone("https://github.com/scheinerman/SimplePosets.jl.git")
+Pkg.clone("https://github.com/scheinerman/SimplePosetAlgorithms.jl.git")
+```
+
+Note that these packages rely on a variety of standard Julia packages
+including `DataStructures`, `Graphs`, `GraphLayout`, `PyPlot`,
+`Optim`, `MathProgBase`, and `JuMP`. These are easy to install with
+commands like this:
+```julia
+julia> Pkg.add("DataStructures")
+```
+
+
+
+
 # The `SimpleGraphs` Julia Module
 
 This module defines two data types for working with graphs:
