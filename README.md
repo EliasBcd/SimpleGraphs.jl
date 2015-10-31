@@ -5,7 +5,7 @@ in the source files directly. Of course, our goal is to have this
 documentation be complete. Your help is welcome.
 
 
-# Welcome! It's a `Simple` world
+# Preface: It's a `Simple` world
 
 This repository contains the `SimpleGraphs` module which is the root
 of a suite of Julia modules for dealing with basic combinatorial
@@ -28,10 +28,10 @@ objects that includes these:
   partially ordered sets.
 
 + `SimplePosetAlgorithms`: Additional functions for the `SimplePoset`
-  type. These functions relay on integer leinar programming.
+  type. These functions rely on integer linear programming.
 	
 
-## Collect the whole set!
+### Collect the whole set
 
 In Julia, the following commands will install these repositories into
 your `.julia` folder for easy use:
@@ -49,7 +49,7 @@ including `DataStructures`, `Graphs`, `GraphLayout`, `PyPlot`,
 `Optim`, `MathProgBase`, and `JuMP`. These are easy to install with
 commands like this:
 ```julia
-julia> Pkg.add("DataStructures")
+Pkg.add("DataStructures")
 ```
 
 
