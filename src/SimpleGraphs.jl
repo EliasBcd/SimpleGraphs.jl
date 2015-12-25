@@ -20,6 +20,7 @@ include("disjoint_sets_helper.jl")
 include("simple_converters.jl")
 include("simple_coloring.jl")
 include("simple_euler.jl")
+include("simple_ham.jl")
 
 include("d_simple_core.jl")
 include("d_simple_constructors.jl")
