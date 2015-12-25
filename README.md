@@ -356,7 +356,8 @@ We generate the following kinds of matrices for graphs
 
 ## Algorithms
 
-Undirected graphs only at this time.
+Undirected graphs only at this time. See also my `SimpleGraphAlgorithms` 
+module for algorithms that rely on integer programming.
 
 ### Find an Eulerian tour in the graph with `euler`
 
