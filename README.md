@@ -399,6 +399,27 @@ is returned.
 
 Note that isolated vertices are ignored.
 
+
+### Find a Hamiltonian cycle
+
+Use `hamiltonian_cycle(G)` to find a Hamiltonian cycle in a graph. This returns a list (1-dimensional array) containing the vertices (in order) of the Hamiltonian cycle. An empty list is returned if there is no such cycle. 
+```julia
+julia> hamiltonian_cycle(Cube(3))
+8-element Array{ASCIIString,1}:
+ "000"
+ "001"
+ "011"
+ "010"
+ "110"
+ "111"
+ "101"
+ "100"
+
+julia> hamiltonian_cycle(Petersen())
+0-element Array{Set{Int64},1}
+```
+
+
 ### Bipartition
 
 `bipartition` determines if a graph is bipartite and returns a
