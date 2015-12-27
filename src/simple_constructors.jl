@@ -286,26 +286,6 @@ function BuckyBall()
     return G
 end
 
-# Create the set of all subsets of size k of a given set
-function subsets{T}(A::Set{T}, k::Int)
-    # create list of lists
-    L = Base.combinations(collect(A),k)
-    B = Set{Set{T}}()
-    for x in L
-        push!(B, array2set(x))
-    end
-    return B
-end
-
-# Unexposed helper function for subsets() function
-function array2set{T}(A::Array{T,1})
-    S = Set{T}()
-    for a in A
-        push!(S,a)
-    end
-    return S
-end
-
 # The Kneser graph Kneser(n,k) has C(n,k) vertices that are the
 # k-element subsets of 1:n in which two vertices are adjacent if (as
 # sets) they are disjoint. The Petersen graph is Kneser(5,2).
@@ -316,8 +296,8 @@ end
 they are disjoint.
 """
 function Kneser(n::Int,k::Int)
-    A = array2set(collect(1:n))
-    vtcs = collect(subsets(A,k))
+    A = collect(1:n)
+    vtcs = [Set(v) for v in subsets(A,k)]
     G = SimpleGraph{Set{Int}}()
 
     for v in vtcs

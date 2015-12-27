@@ -46,8 +46,8 @@ Pkg.clone("https://github.com/scheinerman/SimplePosetAlgorithms.jl.git")
 
 Note that these packages rely on a variety of standard Julia packages
 including `DataStructures`, `Graphs`, `GraphLayout`, `PyPlot`,
-`Optim`, `MathProgBase`, and `JuMP`. These are easy to install with
-commands like this:
+`Optim`, `MathProgBase`, `Iterators`, and `JuMP`. These are easy to
+install with commands like this:
 ```julia
 Pkg.add("DataStructures")
 ```

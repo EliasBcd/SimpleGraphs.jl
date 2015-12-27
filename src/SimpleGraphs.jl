@@ -3,6 +3,7 @@
 
 module SimpleGraphs
 using DataStructures
+using Iterators
 
 """
 `AbstractSimpleGraph` is a parent class for `SimpleGraph` and `SimpleDigraph`.
