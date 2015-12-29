@@ -3,7 +3,7 @@
 export Complete, Path, Cycle, RandomGraph, RandomRegular
 export RandomTree, code_to_tree
 export Grid, Wheel, Cube, BuckyBall
-export Petersen, Kneser, Paley
+export Petersen, Kneser, Paley, Knight
 
 """
 `Complete(n)` returns a complete graph with `n` vertices `1:n`.
