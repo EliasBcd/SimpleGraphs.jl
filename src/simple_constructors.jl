@@ -84,7 +84,7 @@ end
 `Path(n)` creates a path graph with `n` vertices named `1:n`.
 
 `Path(array)` creates a path graph with vertices `array[1]`,
-`array[2]`, etc.  
+`array[2]`, etc.
 """
 
 function Path(n::Int)
@@ -409,4 +409,31 @@ function RandomRegular(n::Int, d::Int, verbose::Bool=false)
             println("Failed; trying again")
         end
     end
+end
+
+"""
+`Knight(r::Int=8,c::Int=8)` creates a Knight's Moves graph on a
+`r`-by-`c` grid. That is, the vertices of this graph are the squares
+of an `r`-by-`c` chess board. Two vertices are adjacent if a Knight
+can go from one of these squares to the other in a single move.
+"""
+function Knight(r::Int=8,c::Int=8)
+    vtcs = collect(product(1:r,1:c))
+    G = SimpleGraph{Tuple{Int64,Int64}}()
+    for v in vtcs
+        add!(G,v)
+    end
+
+    for v in vtcs
+        for w in vtcs
+            xv = collect(v)
+            xw = collect(w)
+            z = sort(map(abs,xv - xw))
+            if z==[1,2]
+                add!(G,v,w)
+            end
+        end
+    end
+
+    return G
 end

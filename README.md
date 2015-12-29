@@ -29,7 +29,7 @@ objects that includes these:
 
 + `SimplePosetAlgorithms`: Additional functions for the `SimplePoset`
   type. These functions rely on integer linear programming.
-	
+
 
 ### Collect the whole set
 
@@ -241,6 +241,8 @@ constructors, we have the following:
 + `Knesser(n,k)` creates the Knesser graph. The vertices of this graph
   are the `k`-element subsets of `{1,2,...,n}`. Two vertices are
   adjacent iff they correspond to disjoint sets.
++ `Knight(r,c)` creates a Knight's moves graph on an `r` by `c`
+  chessboard.
 + `Petersen()` creates the Petersen graph as `Knesser(5,2)`.
 + `Paley(p)` creates the Paley graph with `p` vertices where `p` is a
   prime congruent to 1 modulo 4. The vertex set is `0:p-1` in which two
@@ -356,7 +358,7 @@ We generate the following kinds of matrices for graphs
 
 ## Algorithms
 
-Undirected graphs only at this time. See also my `SimpleGraphAlgorithms` 
+Undirected graphs only at this time. See also my `SimpleGraphAlgorithms`
 module for algorithms that rely on integer programming.
 
 ### Find an Eulerian tour in the graph with `euler`
@@ -403,7 +405,7 @@ Note that isolated vertices are ignored.
 
 ### Find a Hamiltonian cycle
 
-Use `hamiltonian_cycle(G)` to find a Hamiltonian cycle in a graph. This returns a list (1-dimensional array) containing the vertices (in order) of the Hamiltonian cycle. An empty list is returned if there is no such cycle. 
+Use `hamiltonian_cycle(G)` to find a Hamiltonian cycle in a graph. This returns a list (1-dimensional array) containing the vertices (in order) of the Hamiltonian cycle. An empty list is returned if there is no such cycle.
 ```julia
 julia> hamiltonian_cycle(Cube(3))
 8-element Array{ASCIIString,1}:
