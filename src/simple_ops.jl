@@ -5,7 +5,7 @@ import Base.join
 
 export add!, delete!, contract!,  induce
 export line_graph, complement, complement!, ctranspose
-export cartesian, relabel, trim
+export cartesian, lex, relabel, trim
 export disjoint_union, union, join
 
 # check for graph equality
@@ -278,7 +278,7 @@ end
 # Create the cartesian product of two graphs
 """
 `cartesian(G,H)` creates the Cartesian product of the two graphs.
-This can be abbreviated as `G*H`. 
+This can be abbreviated as `G*H`.
 """
 function cartesian{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
     K = SimpleGraph{Tuple{S,T}}()
@@ -317,7 +317,7 @@ end
 # graphs and all possible edges between the two.
 
 """
-`join(G,H)` is a new graph formed by taking disjoint copies of 
+`join(G,H)` is a new graph formed by taking disjoint copies of
 `G` and `H` together with all possible edges between those copies.
 """
 function join{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
@@ -464,3 +464,53 @@ function relabel{S}(G::SimpleGraph{S})
 
     return relabel(G,label)
 end
+
+
+
+"""
+`lex(G,H)` computes the lexicographic product of the graphs `G` and
+`H`. The vertex set of this graph is the set of all ordered pairs
+`(g,h)` (with `g` a vertex of `G` and `h` a vertex of `H` in which we
+have the edge `(g,h)~(g',h')` if either `g~g'` in `G` or else `g=g`
+and `h~h'`.
+
+We can use the notation `G[H]` also to create `lex(G,H)`.
+"""
+function lex{S,T}(G::SimpleGraph{S}, H::SimpleGraph{T})
+    VT = Tuple{S,T}
+    K = SimpleGraph{VT}()
+    # Create vertex set
+    for a in G.V
+        for b in H.V
+            add!(K,(a,b))
+        end
+    end
+
+    # Add edges of the form (a,x)~(b,y) where a~b
+    for e in G.E
+        a = e[1]
+        b = e[2]
+
+        for x in H.V
+            for y in H.V
+                add!(K, (a,x), (b,y))
+            end
+        end
+    end
+
+    # Add edges of the form (a,x)~(a,y) where x~y
+    for a in G.V
+        for e in H.E
+            x = e[1]
+            y = e[2]
+            add!(K, (a,x), (a,y))
+        end
+    end
+
+    return K
+end
+
+"""
+Abbreviation for `lex(G,H)` for `SimpleGraph`s.
+"""
+getindex(G::SimpleGraph, H::SimpleGraph) = lex(G,H)

@@ -326,6 +326,7 @@ Undirected graphs only at this time. To be documented:
 + `induce`
 + `contract!`
 + `cartesian`, `G*H`
++ `lex`, `G[H]` lexicographic product
 + `disjoint_union`
 + `union`
 + `join`
