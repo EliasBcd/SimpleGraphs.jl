@@ -28,7 +28,7 @@ type SimpleGraph{T} <: AbstractSimpleGraph
 end
 
 function show(io::IO, G::AbstractSimpleGraph)
-    print(io,"$(typeof(G)) ($(NV(G)) vertices)")
+    print(io,"Graph{$(vertex_type(G))} ($(NV(G))/$(NE(G)))")
 end
 
 # Default constructor uses Any type vertices
