@@ -27,8 +27,8 @@ type SimpleGraph{T} <: AbstractSimpleGraph
     end
 end
 
-function show(io::IO, G::AbstractSimpleGraph)
-    print(io,"Graph{$(vertex_type(G))} (n=$(NV(G)), m=$(NE(G)))")
+function show(io::IO, G::SimpleGraph)
+    print(io,"SimpleGraph{$(vertex_type(G))} (n=$(NV(G)), m=$(NE(G)))")
 end
 
 # Default constructor uses Any type vertices

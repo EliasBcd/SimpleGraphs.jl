@@ -1,6 +1,6 @@
 # Functions to create standard graph matrices
 
-export adjacency, laplace, incidence, dist_matrix
+export adjacency, char_poly, laplace, incidence, dist_matrix
 
 # Adjaceny Matrix
 
@@ -104,3 +104,16 @@ function dist_matrix(G::AbstractSimpleGraph)
     return A
 end
 
+using Polynomials
+
+"""
+`char_poly(G)` returns the characteristic polynomial of
+`adjacency(G)`.
+"""
+function char_poly(G::AbstractSimpleGraph)
+    A = adjacency(G)
+    evs = eigvals(A)
+    P = poly(evs)
+    cs = round(Int,real(coeffs(P)))
+    return Poly(cs)
+end

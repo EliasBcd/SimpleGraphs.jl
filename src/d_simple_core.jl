@@ -27,6 +27,11 @@ SimpleDigraph() = SimpleDigraph{Any}()
 IntDigraph() = SimpleDigraph{Int}()
 
 
+function show(io::IO, G::SimpleDigraph)
+    print(io,"SimpleDigraph{$(vertex_type(G))} (n=$(NV(G)), m=$(NE(G)))")
+end
+
+
 """
 `StringDigraph()` creates a new directe graph with vertices of type
 `ASCIIString`.

@@ -46,8 +46,8 @@ Pkg.clone("https://github.com/scheinerman/SimplePosetAlgorithms.jl.git")
 
 Note that these packages rely on a variety of standard Julia packages
 including `DataStructures`, `Graphs`, `GraphLayout`, `PyPlot`,
-`Optim`, `MathProgBase`, `Iterators`, and `JuMP`. These are easy to
-install with commands like this:
+`Polynomials`, `Optim`, `MathProgBase`, `Iterators`, and `JuMP`. These
+are easy to install with commands like this:
 ```julia
 Pkg.add("DataStructures")
 ```
@@ -352,6 +352,7 @@ Undirected graphs only at this time. To be documented:
 We generate the following kinds of matrices for graphs
 
 + `adjacency` for both undirected and directed graphs.
++ `char_poly` gives the characteristic polynomial of the `adjacency` matrix.
 + `laplace` for undirected graphs only.
 + `incidence` for both undirected and directed graphs.
 + `dist_matrix` for undirected graphs only.
