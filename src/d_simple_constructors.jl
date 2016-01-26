@@ -86,3 +86,53 @@ function RandomTournament(n::Int)
     end
     return G
 end
+
+
+
+"""
+`all_tuples(alphabet, n)` creates an iterator that produces all
+length-`n` tuples of distinct elements in `alphabet`.
+"""
+function all_tuples(alphabet, n::Int)
+    elts = collect(distinct(alphabet))
+    src  = [ elts for _=1:n ]
+    its  = product(src...)
+    return its
+end
+
+
+export ShiftDigraph
+
+"""
+`ShiftDigraph(alphabet,n)` creates a `SimpleDigraph` whose vertices
+are all length-`n` tuples of the elements in `alphabet` (which can be
+an array such as `[0,1]` or a string such as `"abc"`). An edge from
+`u` to `v` corresponds to an element dropped from the first position
+in `u` and another element added to the end yielding `v`. For example,
+in `ShiftDigraph([0,1],5)` there are two edges leaving vertex
+`(0,1,0,1,1)`; one goes to `(1,0,1,1,0)` and the other to
+`(1,0,1,1,1)`.
+"""
+function ShiftDigraph(alphabet=[0,1], n::Int=3)
+    elts = collect(distinct(alphabet))
+    vertex_iter = all_tuples(alphabet, n)
+    vlist = collect(vertex_iter)
+    T = typeof(vlist[1])
+    G = SimpleDigraph{T}()
+    for v in vlist
+        add!(G,v)
+    end
+
+    # create edges here
+
+    for v in vlist
+        head = collect(drop(v,1))
+        for c in elts
+            w = tuple([head;c]...)
+            add!(G,v,w)
+        end
+    end
+
+    return G
+
+end

@@ -269,6 +269,10 @@ constructors, we have the following:
   each pair of distinct vertices `u` and `v` we have exactly one of
   the edges `(u,v)` or `(v,u)` with probability 1/2 each
   (independently for all pairs of vertices). This graph has no loops.
++ `ShiftDigraph(alphabet, n)` creates the shift digraph whose vertices
+  are `n`-tuples of the elements of `alphabet` with an edge from `u`
+  to `v` exactly when `v` is a shift of `u`. (See the `help` message
+  for more detail.)
 
 ### Converting a directed graph into an undirected graph
 
