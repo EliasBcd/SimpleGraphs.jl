@@ -24,6 +24,8 @@ objects that includes these:
   wraps around a `SimpleGraph` and functions for drawing/visualizing
   graphs.
 
++ `SimpleGraphRepresentations`: Intersection graphs and the like.
+
 + `SimplePosets`: Provides the `SimplePoset` type for working with
   partially ordered sets.
 
