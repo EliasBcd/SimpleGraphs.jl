@@ -42,6 +42,7 @@ your `.julia` folder for easy use:
 Pkg.clone("https://github.com/scheinerman/SimpleGraphs.jl.git")
 Pkg.clone("https://github.com/scheinerman/SimpleGraphDrawings.jl.git")
 Pkg.clone("https://github.com/scheinerman/SimpleGraphAlgorithms.jl.git")
+Pkg.clone("https://github.com/scheinerman/SimpleGraphRepresentations.jl.git")
 Pkg.clone("https://github.com/scheinerman/SimplePosets.jl.git")
 Pkg.clone("https://github.com/scheinerman/SimplePosetAlgorithms.jl.git")
 ```
