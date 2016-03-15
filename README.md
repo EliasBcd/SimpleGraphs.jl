@@ -525,6 +525,13 @@ are mapped to distinct values.
     1  => 1
   ```
 
+### Transitive orientation
+
+Given a simple graph `G`, use `transitive_orientation(G)` to create
+a directed graph whose underlying simple graph is `G` that has a 
+transitive orientation. If `G` is not transitively orientable,
+an error is raised. (Code provided by Tara Abrishami.)
+
 ## Interface to `Graphs.jl`
 
 We provide a `convert_simple` function that takes a `SimpleGraph`

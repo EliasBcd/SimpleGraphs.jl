@@ -23,6 +23,7 @@ include("simple_coloring.jl")
 include("simple_euler.jl")
 include("simple_ham.jl")
 include("bisect.jl")
+include("trans_orient.jl")
 
 include("d_simple_core.jl")
 include("d_simple_constructors.jl")
