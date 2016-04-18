@@ -46,24 +46,6 @@ function transitive_orientation(G::SimpleGraph)
         swapedg = (v2, v)
         unshift!(diredges, edg)
         edges = filter(x -> x != edg && x != swapedg,edges)
-      elseif has(D, v2, v) && has(G, v1, v) && !has(D, v1, v)
-        if has(D, v, v1)
-          error(err_msg)
-        end
-        add!(D, v1, v)
-        edg = (v1, v)
-        swapedg = (v, v1)
-        unshift!(diredges, edg)
-        edges = filter(x -> x != edg && x != swapedg,edges)
-      elseif has(D, v, v1) && has(G, v2, v) && !has(D, v2, v)
-        if has(D, v2, v)
-          error(err_msg)
-        end
-        add!(D, v, v2)
-        edg = (v, v2)
-        swapedg = (v2, v)
-        unshift!(diredges, edg)
-        edges = filter(x -> x != edg && x != swapedg,edges)
       end
     end
   end
