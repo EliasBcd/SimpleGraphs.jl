@@ -527,10 +527,16 @@ are mapped to distinct values.
 
 ### Transitive orientation
 
+Code for these operations by Tara Abrishami.
+
 Given a simple graph `G`, use `transitive_orientation(G)` to create
-a directed graph whose underlying simple graph is `G` that has a 
+a directed graph whose underlying simple graph is `G` that has a
 transitive orientation. If `G` is not transitively orientable,
-an error is raised. (Code provided by Tara Abrishami.)
+an error is raised.
+
+`num_trans_orientations(G)` returns the number of
+transitive orientations of the graph.
+
 
 ## Interface to `Graphs.jl`
 
