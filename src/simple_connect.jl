@@ -122,7 +122,7 @@ function find_path(G::AbstractSimpleGraph,s,t)
                 path[1] = t
                 while path[1] != s
                     v = tracer[path[1]]
-                    prepend!(path,[v])
+                    unshift!(path,v)
                 end
                 return path
 
