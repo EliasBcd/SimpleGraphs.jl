@@ -382,12 +382,12 @@ julia> hamiltonian_cycle(Petersen())
 ### Bipartition
 
 `bipartition` determines if a graph is bipartite and returns a
-partition of the vertex set into two parts. This partition is given as
-a two element set of subsets of the vertex set of the graph.
+partition of the vertex set into two parts. This returns a
+`Partition` (see `SimplePartitions`).
 
 ```julia
 julia> bipartition(RandomTree(10))
-Set{Set{Int64}}({Set{Int64}({2,3,5,8,1}),Set{Int64}({7,4,9,10,6})})
+{{4,5,7,9},{1,2,3,6,8,10}}
 ```
 
 Invoking `bipartition` on a nonbipartite graph throws an error.

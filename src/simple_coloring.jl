@@ -1,4 +1,4 @@
-# Various simple graph functions associated with graph coloring. 
+# Various simple graph functions associated with graph coloring.
 
 export bipartition, two_color, greedy_color, random_greedy_color
 
@@ -38,26 +38,14 @@ end
 # Create a bipartition of a graph or die trying. Returns a set {X,Y}
 # that is a bipartition of the vertex set of G.
 
+using SimplePartitions
 """
 `bipartition(G)` creates a bipartition of the graph (or returns an
-error if the graph is not bipartite. Output is a set of sets.
+error if the graph is not bipartite. Output is a `Partition`.
 """
 function bipartition{T}(G::SimpleGraph{T})
-    f::Dict{T,Int} = two_color(G)
-    X = Set{T}()
-    Y = Set{T}()
-    for v in G.V
-        if f[v]==1
-            push!(X,v)
-        else
-            push!(Y,v)
-        end
-    end
-
-    B = Set{Set{T}}()
-    push!(B,X)
-    push!(B,Y)
-    return B
+  f = two_color(G)
+  return Partition(f)
 end
 
 # Color a graph by the greedy algorithm in the sequence specified by
