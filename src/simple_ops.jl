@@ -1,6 +1,5 @@
 import Base.isequal
 import Base.delete!, Base.union
-import Base.complement, Base.complement!
 import Base.join
 
 export add!, delete!, contract!,  induce

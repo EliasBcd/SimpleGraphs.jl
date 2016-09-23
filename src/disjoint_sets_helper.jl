@@ -3,7 +3,7 @@
 #########################################################
 
 # This takes a DisjointSets object and returns its ground set.
-function ground_set{T}(DS::DisjointSets{T})
+function _ground_set{T}(DS::DisjointSets{T})
     G = Set{T}()
     for item in keys(DS.intmap)
         push!(G,item)
@@ -14,7 +14,7 @@ end
 # Create a set of sets containing the parts of this partition.
 function set_of_sets{T}(DS::DisjointSets{T})
     n = num_groups(DS)
-    GS = ground_set(DS)
+    GS = _ground_set(DS)
 
     # Get root elements
     roots = Set{Int}()
