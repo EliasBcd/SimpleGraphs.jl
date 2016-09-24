@@ -4,6 +4,7 @@ import Base.getindex
 export SimpleGraph, IntGraph, StringGraph
 export show, NV, NE, has, vertex_type, fastN!
 export vlist, elist, neighbors, getindex, deg, deg_hist
+export loadgraph, writeedges
 
 """
 The `SimpleGraph` type represents a simple graph; that is, an
@@ -53,20 +54,50 @@ ignored.
 """
 StringGraph() = SimpleGraph{ASCIIString}()
 
-function StringGraph(file::AbstractString)
-    G = StringGraph()
-    load!(G,file)
+StringGraph(file::AbstractString) = loadgraph(file)
+
+"""
+```loadgraph(file::AbstractString; separator::Char = ' ', 
+    directed::Bool = false, looped::Bool = false, 
+    vertextype::DataType = ASCIIString)```
+
+Load the graph from a text file. 
+
+By default, imports the graph as a string graph, but Number subtypes can be used too.
+
+# Arguments
+* `file`, the file to read from.
+* `separator = ' '`, the character that splits the edges in a line, by default,
+  a white space, but any Julia's Char can be used.
+* `directed = false`, whether the graph should be directed or not,
+  by default it is not.
+* `looped = false`, when we consider a directed graph, whether it has self-loops
+  or not.
+* `vertextype = ASCIIString`, the type of the graph returned. By default,
+  a String, but any Number type can be used too.
+"""
+function loadgraph(file::AbstractString; separator::Char = ' ', 
+    directed::Bool = false, looped::Bool = false, 
+    vertextype::DataType = ASCIIString)
+    if directed
+        G = SimpleDigraph{vertextype}()
+        G.looped = looped
+    else
+        G = SimpleGraph{vertextype}()
+    end
+    load!(G,file, separator = separator, vertextype = vertextype)
     return G
 end
 
-# Helper function for StrinGraph(file), and can be used to add
+# Helper function for loadGraph(file, ...), and can be used to add
 # vertices and edges to a graph (assuming its vertex type can
 # accomodate strings).
-function load!(G::SimpleGraph, file::AbstractString)
+function load!(G::AbstractSimpleGraph, file::AbstractString; 
+    separator::Char = ' ', vertextype::DataType = ASCIIString)
     f = open(file, "r")
     while(~eof(f))
         line = chomp(readline(f))
-        tokens = split(line)
+        tokens = split(line, [separator, ' '], keep = false)
 
         if (length(tokens) == 0)
             continue
@@ -75,10 +106,17 @@ function load!(G::SimpleGraph, file::AbstractString)
         if (tokens[1][1] == '#')
             continue
         end
-
-        add!(G,tokens[1])
-        if length(tokens) > 1
-            add!(G,tokens[1],tokens[2])
+        
+        if vertextype <: Number
+            add!(G, parse(vertextype, tokens[1]))
+            if length(tokens) > 1
+                add!(G, parse(vertextype, tokens[1]), parse(vertextype, tokens[2]))
+            end
+        else
+            add!(G,tokens[1])
+            if length(tokens) > 1
+                add!(G,tokens[1],tokens[2])
+            end
         end
     end
 end
@@ -305,4 +343,26 @@ import Base.hash
 
 function hash(G::SimpleGraph, h::UInt64 = UInt64(0))
     return hash(G.V,h) + hash(G.E,h)
+end
+
+"""
+```writeedges(file::AbstractString, dg::AbstractSimpleGraph, separator = ',')```
+
+Save the digraph edges into a file.
+
+Each edge is saved in a new line.
+
+# Arguments
+* file: the name of the file where the edges should be saved
+* graph: the graph we want to save
+* separator: optional argument, specifying the separator between head and the tail 
+  of the edges, default to ','
+"""
+function writeedges(file::AbstractString, graph::AbstractSimpleGraph, separator = ',')
+    try rm(file) end # Remove previous file with the same name, if it existed
+    outfile = open(file, "a")
+    for (s, t) in elist(graph)
+        write(outfile, "$s$separator $t\n")
+    end
+    close(outfile)
 end

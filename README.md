@@ -58,6 +58,8 @@ and edges. These are done with `add!` and `delete!`. In general, if
 + `add!(G,v,w)` adds the edge `(v,w)` to the graph. If `G` is an
   undirected graph, then `(v,w)` and `(w,v)` are the same thing. See
   also the discussion concerning loops just below.
++ `addedges!(G, edgelist)` adds an edge list to the graph. The list must
+  be provided as a list of tuples for now.
 + `delete!(G,v)` deletes the vertex `v` from the graph as well as any
   edges that might be incident with `v`.
 + `delete!(G,v,w)` deletes the edge `(v,w)`.
@@ -142,10 +144,21 @@ manipulate loops:
   alter its ability to have loops.
 + `forbid_loops!(D)` deletes all loops (if any) and prevents `D` from
   having loops.
+  
+### Copy / Subgraphs
+
++ `deepcopy` realizes a (deep) copy of the given graph, keeping the 
+  self-loop property.
++ `subgraph` creates a copy of the graph containing only the given vertices,
+  keeping the self-loop property.
 
 ## Constructors
 
 We provide a variety of functions for generating certain standard graphs.
+
++ `loadgraph(file; separator, directed, looped, vertextype)` loads
+  a graph from a file (not currently using the standard graph formats).
+  The graph loaded can be directed or undirected.
 
 ### Constructors for undirected graphs
 
@@ -289,7 +302,9 @@ Undirected graphs only at this time. To be documented:
 
 ## Paths and connectivity
 
-Undirected graphs only at this time. To be documented:
+### Undirected graphs
+
+To be documented:
 
 + `is_connected`
 + `num_components`
@@ -300,6 +315,66 @@ Undirected graphs only at this time. To be documented:
 + `diam`
 + `is_cut_edge`
 + `spanning_forest`
+
+### Directed graphs
+
++ `TarjanSCC` computes the 
+  [strongly connected components](https://en.wikipedia.org/wiki/Strongly_connected_component) 
+  Of a directed graph using 
+  [Tarjan's algorithm](https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm).
+  The algorithm is based on a Depth-First-Search and is linear in time.
+
+  ```julia> dg1 = DirectedPath(4)
+  SimpleDigraph{Int64} (n=4, m=3)
+  
+  julia> TarjanSCC(dg1)
+  4-element Array{Array{Int64,1},1}:
+   [4]
+   [3]
+   [2]
+   [1]
+   
+  julia> dg2 = DirectedComplete(4)
+  SimpleDigraph{Int64} (n=4, m=16)
+
+  julia> TarjanSCC(dg2)
+  1-element Array{Array{Int64,1},1}:
+   [1,3,2,4]```
+
++ `max_cycles` computes the maximum theoretical numbers of 
+  cycles in a directed graph or for a given number of vertices, 
+  assuming it does not have self-loops.
+  ```julia> maxcycles(4)
+  20```
+  
+  When a directed graph is used as input, the maximal number of cycles
+  can be computed with or without considering the strongly connected 
+  components. If the digraph contains self-loops, they are taken into
+  account.
+  ```julia> dg = DirectedPath(4)
+  SimpleDigraph{Int64} (n=4, m=3)
+
+  julia> maxcycles(dg, true)
+  0
+  
+  julia> maxcycles(dg, false)
+  20```
+  
++ `simplecycles` computes all the simple cycles of a directed graph,
+  including self-loops, using 
+  [Johnson's algorithm](http://epubs.siam.org/doi/abs/10.1137/0204007)
+  for simple cycles.
+  
++ `countcycles` computes the number of cycles of a directed graph,
+  up to a ceiling (by default, 10^6). Not faster than `simplecycles`,
+  but useful if  the number of cycles is potentially large, and uses
+  (slightly) less memory.
+  
++ `getcycles` performs the same operation as simple cycles, but 
+  adding the possibility of the ceiling, approximately the same speed 
+  as `countcycles` and `simplecycles`.
+  
++ `transitiveclosure` closes a directed graph, using a DFS.
 
 ## Graph matrices
 
@@ -361,7 +436,10 @@ Note that isolated vertices are ignored.
 
 ### Find a Hamiltonian cycle
 
-Use `hamiltonian_cycle(G)` to find a Hamiltonian cycle in a graph. This returns a list (1-dimensional array) containing the vertices (in order) of the Hamiltonian cycle. An empty list is returned if there is no such cycle.
+Use `hamiltonian_cycle(G)` to find a Hamiltonian cycle in a graph. 
+This returns a list (1-dimensional array) containing the vertices 
+(in order) of the Hamiltonian cycle. An empty list is returned 
+if there is no such cycle.
 ```julia
 julia> hamiltonian_cycle(Cube(3))
 8-element Array{ASCIIString,1}:
@@ -484,6 +562,7 @@ an error is raised.
 `num_trans_orientations(G)` returns the number of
 transitive orientations of the graph.
 
+ 
 
 ## Interface to `Graphs.jl`
 
@@ -519,6 +598,15 @@ Dict{Int64,ASCIIString} with 8 entries:
   6 => "101"
   1 => "000"
 ```
+
+
+## Saving graphs
+
+`writeedges` writes the edges of the graph in a file. Each line is an edge.
+In the case of directed graphs, the source is the first element,
+the target the second element on the line. The default
+separator is a ',', but any other separator can be used.
+
 
 # Please Help
 

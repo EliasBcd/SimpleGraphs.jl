@@ -1,9 +1,15 @@
 # Core definitions for directed graphs
 
+import Base.deepcopy
+
 export SimpleDigraph, IntDigraph, StringDigraph
 export is_looped, allow_loops!, forbid_loops!, remove_loops!, loops
 export out_deg, in_deg, deg, dual_deg
 export in_neighbors, out_neighbors, simplify, vertex_split
+export addedges!, writeedges
+export deepcopy, subgraph
+export TransitiveVisitor
+
 
 """
 `SimpleDigraph()` creates a new directed graph with vertices of `Any`
@@ -365,3 +371,63 @@ function vertex_split{S}(G::SimpleDigraph{S})
     return H
 end
     
+
+"""
+```addedges!(g::Union{SimpleGraph, SimpleDigraph}, edgelist::Vector{Tuple})```
+
+Add a list of edges to a graph."""
+function addedges!{T}(g::Union{SimpleGraph{T}, SimpleDigraph{T}}, 
+    edgelist::Vector{Tuple{T, T}})
+    for (s,t) in edgelist
+        add!(g, s, t)
+    end
+    return g
+end
+
+
+"""
+```deepcopy{T}(dg::SimpleDigraph{T})```
+
+Create a deep copy of the directed graph dg.
+"""
+function deepcopy{T}(dg::SimpleDigraph{T})
+    b = SimpleDigraph{T}()
+    b.looped = dg.looped
+    for v in dg.V
+        add!(b, v)
+    end
+    for (s, n) in elist(dg)
+        add!(b, s, n)
+    end
+    return b
+end
+
+"""
+```deepcopy{T}(g::SimpleGraph{T})```
+
+Create a deep copy of the undirected graph g.
+"""
+function deepcopy{T}(g::SimpleGraph{T})
+    b = SimpleGraph{T}()
+    for v in g.V
+        add!(b, v)
+    end
+    for (s, n) in elist(g)
+        add!(b, s, n)
+    end
+    return b
+end
+
+"""
+```subgraph{T}(dg::SimpleDigraph{T}, vertexlist::Vector{T})```
+
+Return the subgraph of the directed graph dg made of the vertices from vertexlist.
+"""
+function subgraph{T}(dg::SimpleDigraph{T}, vertexlist::Vector{T})
+    b = deepcopy(dg)
+    vertices = setdiff(vlist(dg), vertexlist)
+    for v in vertices
+         delete!(b, v)
+    end
+    return b
+end
